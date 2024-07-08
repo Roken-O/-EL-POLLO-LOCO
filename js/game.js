@@ -6,5 +6,4 @@ function init() {
     world = new World(canvas);
 
     console.log('My World is', world['character']);
-    
 }
