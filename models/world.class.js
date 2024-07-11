@@ -1,12 +1,12 @@
 class World {
     character = new Character();
     level = level1;
-
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     collect_coins = 0;
+    collect_bottles = 0;
 
     status_bar = new StatusBar(5, 0, 100,[
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png', // 0
@@ -36,13 +36,6 @@ class World {
 
     ]);
 
-    // coins = [
-    //     new Coins(50, 30),
-    //     new Coins(50, 30),
-    //     new Coins(100, 50),
-    //     new Coins(70, 30)
-    // ];
-
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -53,6 +46,7 @@ class World {
         this.setWorld();
         this.run();
         this.checkCollisionsCoins();
+        this.checkCollisionsBottles();
     }
 
     setWorld() {
@@ -66,6 +60,7 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.checkCollisionsCoins();
+            this.checkCollisionsBottles();
         }, 200);
     }
 
@@ -99,6 +94,19 @@ class World {
         });
     }
 
+    checkCollisionsBottles(){
+        this.level.bottles.forEach((bottle, index) =>{
+            if(this.character.isColliding(bottle)){
+               if(this.collect_bottles < 100){
+                this.collect_bottles += 10;
+                this.status_bar_bottles.setPercentage(this.collect_bottles , this.status_bar_bottles.images);
+                console.log(this.collect_bottles);
+                this.level.bottles.splice(index, 1);
+               }
+            }
+        });
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -117,9 +125,10 @@ class World {
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
-
+        this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
+        
         this.ctx.translate(-this.camera_x, 0);
 
         // Draw() wird immer aufgerufen 
