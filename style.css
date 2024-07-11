@@ -1,10 +1,43 @@
 body {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
+  }
+  
+  body::before {
+    content: "";
+    position:absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('img/desert.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: -1;
+  }
 
 canvas{
     background-color: black;
+}
+
+h1{
+    font-size: 67px;
+    letter-spacing: 8px;
+    color: #603814;
+    text-shadow: 4px 2px 2px #e7e2de;
+    font-weight:400;
+}
+
+@font-face {
+    font-family: 'zabars';
+    src: url('fonts/zabars.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
