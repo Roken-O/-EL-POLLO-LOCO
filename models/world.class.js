@@ -6,6 +6,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    collect_coins = 0;
 
     status_bar = new StatusBar(5, 0, 100,[
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png', // 0
@@ -35,6 +36,13 @@ class World {
 
     ]);
 
+    // coins = [
+    //     new Coins(50, 30),
+    //     new Coins(50, 30),
+    //     new Coins(100, 50),
+    //     new Coins(70, 30)
+    // ];
+
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -44,10 +52,12 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.checkCollisionsCoins();
     }
 
     setWorld() {
         this.character.world = this;
+        this.level.coins.world = this;
     }
 
     run() {
@@ -55,6 +65,7 @@ class World {
             //check collisions
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollisionsCoins();
         }, 200);
     }
 
@@ -71,6 +82,19 @@ class World {
                 this.character.hit();
                 // console.log('Energy:' + this.character.energy);
                 this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
+            }
+        });
+    }
+
+    checkCollisionsCoins(){
+        this.level.coins.forEach((coin, index) =>{
+            if(this.character.isColliding(coin)){
+               if(this.collect_coins < 100){
+                this.collect_coins += 5;
+                this.status_bar_coin.setPercentage(this.collect_coins , this.status_bar_coin.images);
+                console.log(this.collect_coins);
+                this.level.coins.splice(index, 1);
+               }
             }
         });
     }
@@ -95,7 +119,7 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
 
         this.addObjectsToMap(this.level.enemies);
-
+        this.addObjectsToMap(this.level.coins);
         this.ctx.translate(-this.camera_x, 0);
 
         // Draw() wird immer aufgerufen 
