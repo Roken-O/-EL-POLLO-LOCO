@@ -6,6 +6,7 @@ class DrawableObject {
     width = 100;
     imageCache = {};
     currentImage = 0;
+    percentage;
 
 
     loadImage(path) {
@@ -34,5 +35,7 @@ class DrawableObject {
             ctx.stroke();
         }
     }
+
+
 
 }
