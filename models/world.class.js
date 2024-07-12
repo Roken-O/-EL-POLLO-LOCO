@@ -8,6 +8,7 @@ class World {
     collect_coins = 0;
     collect_bottles = 0;
 
+
     offset = {
         top: 0,
         left: 0,
@@ -43,6 +44,15 @@ class World {
 
     ]);
 
+    status_bar_endboss = new StatusBar(550, 0, 100, [
+        'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
+    ]);
+
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -56,16 +66,14 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        // this.level.coins.world = this;
-        this.level.endbosss.forEach(endboss => {
-            endboss.world = this;
-        });
+        this.level.endbosss.world = this;
     }
 
     run() {
         setInterval(() => {
             //check collisions
             this.checkCollisions();
+            this.checkCollisionsWithEndBoss();
             this.checkThrowObjects();
             this.CheckCharacterAboveChicken();
             this.checkCollisionsCoins();
@@ -73,15 +81,23 @@ class World {
         }, 200);
     }
 
+    // checkCollisionsWithEndboss() {
+    //     if (this.character.isColliding(this.level.endbosss)) {
+    //         this.character.hit();
+    //         this.character.isHurt();
+    //         this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
+    //     }
+    // }
+
     CheckCharacterAboveChicken() {
         this.level.enemies.forEach((enemy, index) => {
             // if(this.character.y < 140) { 
             // console.log('pepe is above');
             if (this.character.isAboveGround()) {
-            if(this.character.isColliding(enemy)){
-            
-                // if (this.character.isHurt()) {
-                    
+                if (this.character.isColliding(enemy)) {
+
+                    // if (this.character.isHurt()) {
+
                     console.log('chicken dead!');
                     this.level.enemies.splice(index, 1);
                     // }
@@ -97,14 +113,21 @@ class World {
         }
     }
 
+    checkCollisionsWithEndBoss() {
+        if(this.character.isColliding(this.level.endbosss)){
+            this.character.hit();
+            console.log('Energy:' + this.character.energy);
+            this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
+        }
+    }
+
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                // console.log('Energy:' + this.character.energy);
-                this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
-            }
-        });
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    this.character.hit();
+                    this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
+                }
+            }); 
     }
 
     checkCollisionsCoins() {
@@ -131,9 +154,9 @@ class World {
                 }
             }
         });
-    } 
+    }
 
-    
+
     // checkCharacterX(){
     //     // return this.character.x > 2200;
     //     if(this.character.x > 2200){
@@ -154,6 +177,7 @@ class World {
         this.addToMap(this.status_bar);
         this.addToMap(this.status_bar_coin);
         this.addToMap(this.status_bar_bottles);
+        this.addToMap(this.status_bar_endboss);
 
         this.ctx.translate(this.camera_x, 0); // Forward
 
@@ -161,7 +185,7 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.endbosss);
+        this.addToMap(this.level.endbosss);
         this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0);
