@@ -87,6 +87,7 @@ class Character extends MovableObject {
         this.loadImages(this.images_idle);
         this.loadImages(this.images_sleeping);
         this.applyGravity();
+        // this.checkCharacterX();
         this.animate();
     }
 
@@ -112,7 +113,7 @@ class Character extends MovableObject {
                 this.lastMoveTime = new Date().getTime();
             }
 
-            this.world.camera_x = -this.x + 100;
+            this.world.camera_x = -this.x + 200;
         }, 1000 / 60);
 
         setInterval(() => {

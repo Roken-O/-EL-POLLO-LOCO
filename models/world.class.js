@@ -56,7 +56,10 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.level.coins.world = this;
+        // this.level.coins.world = this;
+        this.level.endbosss.forEach(endboss => {
+            endboss.world = this;
+        });
     }
 
     run() {
@@ -110,7 +113,7 @@ class World {
                 if (this.collect_coins < 100) {
                     this.collect_coins += 5;
                     this.status_bar_coin.setPercentage(this.collect_coins, this.status_bar_coin.images);
-                    console.log(this.collect_coins);
+                    // console.log(this.collect_coins);
                     this.level.coins.splice(index, 1);
                 }
             }
@@ -130,6 +133,14 @@ class World {
         });
     } 
 
+    
+    // checkCharacterX(){
+    //     // return this.character.x > 2200;
+    //     if(this.character.x > 2200){
+    //     console.log('first mate!');
+    //     return true;
+    //     }
+    // }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -150,6 +161,7 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.endbosss);
         this.addObjectsToMap(this.level.coins);
 
         this.ctx.translate(-this.camera_x, 0);

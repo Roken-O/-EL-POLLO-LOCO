@@ -53,6 +53,13 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    // checkCharacterX(){
+    //     // return this.character.x > 2200;
+    //     if(this.x > 2200){
+    //     console.log('first mate!');
+    //     }
+    // }
+
     moveRight() {
         this.x += this.speed;
     }
