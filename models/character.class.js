@@ -1,19 +1,21 @@
 class Character extends MovableObject {
     height = 300;
-    y = 140;
-    speed = 10;
+    width = 150;
+    y = 130;
+    speed = 5;
     lastMoveTime = 0;
     world;
     walking_sound = new Audio('audio/walking.mp3');
     jump_sound = new Audio('audio/jump.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
+    snoring_sound = new Audio('audio/snoring.mp3');
 
     offset = {
         top: 120,
-        left: 0,
-        right: 10,
-        bottom: 0
-    };
+        bottom: 15,
+        left: 30,
+        right: 40
+    }
 
     images_Walking = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -93,6 +95,7 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
+            // this.snoring_sound.pause();
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.world.level.level_end_x > this.x) {
                 this.moveRight();
@@ -151,6 +154,7 @@ class Character extends MovableObject {
             this.playAnimation(this.images_idle);
         } else {
             this.playAnimation(this.images_sleeping);
+            // if (audio) this.snoring_sound.play();
         }
     }
 }

@@ -21,7 +21,7 @@ class MovableObject extends DrawableObject {
         if(this instanceof ThrowableObject){ // ThrowableObject should always fall
             return true;
         }else{
-        return this.y < 140;
+        return this.y < 130;
         }
     }
 
@@ -32,6 +32,13 @@ class MovableObject extends DrawableObject {
             this.x + this.offset.left < mo.x
             && this.y  + this.offset.top < mo.y + mo.height;
     }
+
+    // isColliding(mo) {
+    //     return this.x + this.width - this.offset.right >= mo.x &&
+    //         this.x + this.offset.left <= mo.x + mo.width &&
+    //         this.y + this.height - this.offset.bottom >= mo.y &&
+    //         this.y + this.offset.top <= mo.y + mo.height;
+    // }
 
     hit() {
         this.energy -= 5;

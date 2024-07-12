@@ -31,7 +31,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.images_first_contact);
         this.loadImages(this.images_Walking);
 
-        this.speed = 0.15 + Math.random() * 30;
+        this.speed = 30;
 
         this.animate();
     }
@@ -46,10 +46,13 @@ class Endboss extends MovableObject {
                     if (this.world.character.x > this.x) {
                         this.moveRight();
                         this.otherDirection = true;
-                    } else {
+                        this.playAnimation(this.images_Walking);
+                    } else if(this.world.character.x < this.x){
                         this.moveLeft();
                         this.otherDirection = false;
                         this.playAnimation(this.images_Walking);
+                    }else{
+                        this.playAnimation(this.images_first_contact); 
                     }
                 }
             }
