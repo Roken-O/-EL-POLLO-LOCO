@@ -8,7 +8,14 @@ class World {
     collect_coins = 0;
     collect_bottles = 0;
 
-    status_bar = new StatusBar(5, 0, 100,[
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
+
+    status_bar = new StatusBar(5, 0, 100, [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png', // 0
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
@@ -17,7 +24,7 @@ class World {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'// 5
     ]);
 
-    status_bar_coin = new StatusBar(5, 33, 0,[
+    status_bar_coin = new StatusBar(5, 33, 0, [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
@@ -26,7 +33,7 @@ class World {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ]);
 
-    status_bar_bottles = new StatusBar (5, 66 , 0,[    
+    status_bar_bottles = new StatusBar(5, 66, 0, [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
@@ -45,8 +52,6 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        this.checkCollisionsCoins();
-        this.checkCollisionsBottles();
     }
 
     setWorld() {
@@ -59,9 +64,27 @@ class World {
             //check collisions
             this.checkCollisions();
             this.checkThrowObjects();
+            this.CheckCharacterAboveChicken();
             this.checkCollisionsCoins();
             this.checkCollisionsBottles();
         }, 200);
+    }
+
+    CheckCharacterAboveChicken() {
+        this.level.enemies.forEach((enemy, index) => {
+            // if(this.character.y < 140) { 
+            // console.log('pepe is above');
+            if (this.character.isAboveGround()) {
+            if(this.character.isColliding(enemy)){
+            
+                // if (this.character.isHurt()) {
+                    
+                    console.log('chicken dead!');
+                    this.level.enemies.splice(index, 1);
+                    // }
+                }
+            }
+        });
     }
 
     checkThrowObjects() {
@@ -81,31 +104,31 @@ class World {
         });
     }
 
-    checkCollisionsCoins(){
-        this.level.coins.forEach((coin, index) =>{
-            if(this.character.isColliding(coin)){
-               if(this.collect_coins < 100){
-                this.collect_coins += 5;
-                this.status_bar_coin.setPercentage(this.collect_coins , this.status_bar_coin.images);
-                console.log(this.collect_coins);
-                this.level.coins.splice(index, 1);
-               }
+    checkCollisionsCoins() {
+        this.level.coins.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                if (this.collect_coins < 100) {
+                    this.collect_coins += 5;
+                    this.status_bar_coin.setPercentage(this.collect_coins, this.status_bar_coin.images);
+                    console.log(this.collect_coins);
+                    this.level.coins.splice(index, 1);
+                }
             }
         });
     }
 
-    checkCollisionsBottles(){
-        this.level.bottles.forEach((bottle, index) =>{
-            if(this.character.isColliding(bottle)){
-               if(this.collect_bottles < 100){
-                this.collect_bottles += 10;
-                this.status_bar_bottles.setPercentage(this.collect_bottles , this.status_bar_bottles.images);
-                console.log(this.collect_bottles);
-                this.level.bottles.splice(index, 1);
-               }
+    checkCollisionsBottles() {
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
+                if (this.collect_bottles < 100) {
+                    this.collect_bottles += 10;
+                    this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
+                    console.log(this.collect_bottles);
+                    this.level.bottles.splice(index, 1);
+                }
             }
         });
-    }
+    } 
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -128,7 +151,7 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
-        
+
         this.ctx.translate(-this.camera_x, 0);
 
         // Draw() wird immer aufgerufen 

@@ -27,10 +27,10 @@ class MovableObject extends DrawableObject {
 
     // character.isColliding(chicken);
     isColliding(mo) {
-        return this.x + this.width >= mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
+        return this.x + this.width - this.offset.right >= mo.x &&
+            this.y + this.height - this.offset.bottom> mo.y &&
+            this.x + this.offset.left < mo.x
+            && this.y  + this.offset.top < mo.y + mo.height;
     }
 
     hit() {

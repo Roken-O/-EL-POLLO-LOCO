@@ -39,18 +39,18 @@ const level1 = new Level(
         new Coins(700, 250),
         new Coins(800, 190),
         new Coins(900, 55),
-        new Coins(1120, 44),
-        new Coins(1000, 50),
+        new Coins(1120, 125),
+        new Coins(1000, 140),
         new Coins(1100, 200),
-        new Coins(1200, 30),
+        new Coins(1200, 60),
         new Coins(1300, 55),
         new Coins(1400, 100),
         new Coins(1500, 40),
         new Coins(1750, 47),
-        new Coins(1875, 20),
+        new Coins(1875, 75),
         new Coins(1935, 210),
         new Coins(2054, 180),
-        new Coins(2154, 20),
+        new Coins(2154, 75),
         new Coins(2234, 200)
     ],
     [
@@ -88,7 +88,12 @@ const level1 = new Level(
         new BackgroundObject('img/5_background/layers/air.png', 719 * 3),
         new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719 * 3),
         new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719 * 3),
-        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 3)
+        new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 3),
+
+        new BackgroundObject('img/5_background/layers/air.png', 719 * 4),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 719 * 4),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 719 * 4),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 719 * 4)
 
     ]
 );
