@@ -107,8 +107,9 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D && this.collect_bottles > 0 ) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+        if (this.keyboard.D && this.collect_bottles > 0) {
+            let direction = this.character.otherDirection;
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, direction);
             this.throwableObjects.push(bottle);
             this.collect_bottles -= 10;
             this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
@@ -116,15 +117,15 @@ class World {
         }
     }
 
-    checkBottelCollisionWithEndBoss(){
-        this.throwableObjects.forEach((bottle)=>{
-            if(bottle.isColliding(this.level.endboss)){
-                if(this.level.endboss.energy > 0){
-                this.level.endboss.energy -= 15;
-                this.level.endboss.hit();
-                console.log(this.level.endboss.energy);
-                this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
-                }else{
+    checkBottelCollisionWithEndBoss() {
+        this.throwableObjects.forEach((bottle) => {
+            if (bottle.isColliding(this.level.endboss)) {
+                if (this.level.endboss.energy > 0) {
+                    this.level.endboss.energy -= 15;
+                    this.level.endboss.hit();
+                    console.log(this.level.endboss.energy);
+                    this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
+                } else {
 
                 }
             }
@@ -180,14 +181,6 @@ class World {
         });
     }
 
-
-    // checkCharacterX(){
-    //     // return this.character.x > 2200;
-    //     if(this.character.x > 2200){
-    //     console.log('first mate!');
-    //     return true;
-    //     }
-    // }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
