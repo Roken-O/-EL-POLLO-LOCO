@@ -7,6 +7,13 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
 
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
+
     applyGravity() {
         setInterval(() => {
 
@@ -48,6 +55,10 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
+
+    // hitEndboss(){
+    //     return true;
+    // }
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Difference im ms

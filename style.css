@@ -27,6 +27,8 @@ body {
 
 canvas{
     background-color: black;
+    box-shadow: 24px 16px 16px #603814c2;
+    border-radius: 40px;
 }
 
 h1{

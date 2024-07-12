@@ -7,7 +7,9 @@ class World {
     camera_x = 0;
     collect_coins = 0;
     collect_bottles = 0;
-
+    coin_sound = new Audio('audio/coin.mp3');
+    bottleCollect_sound = new Audio('audio/bottlecollect.mp3');
+    chickenDead_sound = new Audio('audio/chickenDead.mp3');
 
     offset = {
         top: 0,
@@ -67,7 +69,10 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.level.endbosss.world = this;
+        this.level.endboss.world = this;
+        this.level.enemies.forEach((enemy) => {
+            enemy.world = this;
+        });
     }
 
     run() {
@@ -77,7 +82,7 @@ class World {
             this.checkCollisions();
             this.checkCollisionsWithEndBoss();
             this.checkThrowObjects();
-
+            this.checkBottelCollisionWithEndBoss()
             this.checkCollisionsCoins();
             this.checkCollisionsBottles();
         }, 200);
@@ -88,11 +93,13 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.speedY < 0) {
-                    console.log('speedyY:' + this.character.speedY);
-                    this.character.speedY= 0;
+                    // console.log('speedyY:' + this.character.speedY);
+                    this.chickenDead_sound.play();
+                    this.character.speedY = 0;
                     this.chicken_dead = true;
+
                     // console.log('Energy:' + this.character.energy);
-                    console.log('chicken dead!');
+                    // console.log('chicken dead!');
                     this.level.enemies.splice(index, 1);
                 }
             }
@@ -100,14 +107,32 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
+        if (this.keyboard.D && this.collect_bottles > 0 ) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.collect_bottles -= 10;
+            this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
+            this.checkBottelCollisionWithEndBoss();
         }
     }
 
+    checkBottelCollisionWithEndBoss(){
+        this.throwableObjects.forEach((bottle)=>{
+            if(bottle.isColliding(this.level.endboss)){
+                if(this.level.endboss.energy > 0){
+                this.level.endboss.energy -= 15;
+                this.level.endboss.hit();
+                console.log(this.level.endboss.energy);
+                this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
+                }else{
+
+                }
+            }
+        });
+    }
+
     checkCollisionsWithEndBoss() {
-        if (this.character.isColliding(this.level.endbosss)) {
+        if (this.character.isColliding(this.level.endboss)) {
             this.character.energy -= 5;
             this.character.hit();
             // console.log('Energy:' + this.character.energy);
@@ -131,6 +156,7 @@ class World {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 if (this.collect_coins < 100) {
+                    this.coin_sound.play();
                     this.collect_coins += 5;
                     this.status_bar_coin.setPercentage(this.collect_coins, this.status_bar_coin.images);
                     // console.log(this.collect_coins);
@@ -144,6 +170,7 @@ class World {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 if (this.collect_bottles < 100) {
+                    this.bottleCollect_sound.play();
                     this.collect_bottles += 10;
                     this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
                     // console.log(this.collect_bottles);
@@ -182,8 +209,9 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.enemies);
-        this.addToMap(this.level.endbosss);
+
         this.addObjectsToMap(this.level.coins);
+        this.addToMap(this.level.endboss);
 
         this.ctx.translate(-this.camera_x, 0);
 
