@@ -18,7 +18,7 @@ class World {
         bottom: 0
     };
 
-    status_bar = new StatusBar(5, 0, 100, [
+    status_bar = new StatusBar(8, 5, 100, [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png', // 0
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
@@ -27,7 +27,7 @@ class World {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'// 5
     ]);
 
-    status_bar_coin = new StatusBar(5, 33, 0, [
+    status_bar_coin = new StatusBar(8, 38, 0, [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
@@ -36,7 +36,7 @@ class World {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ]);
 
-    status_bar_bottles = new StatusBar(5, 66, 0, [
+    status_bar_bottles = new StatusBar(8, 71, 0, [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
@@ -46,7 +46,7 @@ class World {
 
     ]);
 
-    status_bar_endboss = new StatusBar(550, 0, 100, [
+    status_bar_endboss = new StatusBar(547, 5, 100, [
         'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
         'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
         'img/7_statusbars/2_statusbar_endboss/blue/blue40.png',

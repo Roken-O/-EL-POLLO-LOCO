@@ -21,18 +21,33 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
-    
+
     <script src="models/throwable-object.class.js"></script>
     <script src="levels/level1.js"></script>
 
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body>
     <h1> EL POLLO LOCO</h1>
-    <canvas id="canvas" width="720" height="480">
+    <div>
+        <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
 
-    </canvas>
+        <div id="overlay" class="overlay">
+            <button class="pulse" onclick="init()">START GAME</button>
+            <div class="emptyContainer"></div>
+            <div class="infoWidth">
+                <div onclick="showInfoWindow()" class="infoContainer pulse">
+                    <img src="img/info.png">
+                </div>
+            </div>
+        </div>
+
+        <div onclick="hideInfoWindow()" id="infoWindow">Halllllllllllllllllllllllllllllll</div>
+
+
+    </div>
+    </div>
 
 </body>
 
