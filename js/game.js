@@ -2,6 +2,9 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+let intervalIds = [];
+let a = 0;
+
 function init() {
     canvas = document.getElementById('canvas');
     initLevel();
@@ -60,18 +63,6 @@ window.addEventListener('keyup', (e) => {
     // console.log(e);
 });
 
-function checkOrientation() {
-    if (window.matchMedia("(orientation: landscape)").matches) {
-        if (window.innerHeight < 480) {
-            newHeight = window.innerHeight;
-            document.getElementById('canvas').style.height = `${newHeight}px`;
-        }
-    }
-    else {
-        document.getElementById('canvas').style.height = `100%`;
-    }
-}
-
 function showInfoWindow() {
     let infoWindow = document.getElementById('infoWindow');
     infoWindow.style.display = 'flex';
@@ -116,4 +107,45 @@ function hideInfoWindow() {
 
 function doNotClose(event) {
     event.stopPropagation();
+}
+
+function setStoppableInterval(fn, time){
+    let id = setInterval(fn, time);
+    intervalIds.push(id);
+}
+
+function stopGame(){
+    intervalIds.forEach(clearInterval);
+    intervalIds =[];
+}
+
+function showFullscreen(){
+    let fullscreen = document.getElementById('fullscreen');
+    openFullscreen(fullscreen);
+}
+
+function hideFullscreen(){
+    let fullscreen = document.getElementById('fullscreen');
+    closeFullscreen(fullscreen);
+}
+
+function openFullscreen(elem) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  }
+  
+  /* Close fullscreen */
+  function closeFullscreen(elem) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
 }

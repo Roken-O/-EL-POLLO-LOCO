@@ -10,7 +10,7 @@ class World {
     coin_sound = new Audio('audio/coin.mp3');
     bottleCollect_sound = new Audio('audio/bottlecollect.mp3');
     chickenDead_sound = new Audio('audio/chickenDead.mp3');
-
+    win_or_lost =  new WinOrLost();
     offset = {
         top: 0,
         left: 0,
@@ -78,6 +78,7 @@ class World {
     run() {
         setInterval(() => {
             //check collisions
+            this.checkCharacterAndEndbossEnergy();
             this.CheckCharacterAboveChicken();
             this.checkCollisions();
             this.checkCollisionsWithEndBoss();
@@ -86,6 +87,18 @@ class World {
             this.checkCollisionsCoins();
             this.checkCollisionsBottles();
         }, 200);
+    }
+
+    checkCharacterAndEndbossEnergy(){
+        if(this.character.energy == 0){
+            this.gameOver();
+        }else if(this.level.endboss.energy ==0){
+            this.youWin();
+        }
+    }
+
+    gameOver(){
+        this.addToMap(this.win_or_lost);
     }
 
     CheckCharacterAboveChicken() {
