@@ -14,7 +14,7 @@ class ThrowableObject extends MovableObject {
         this.speedY = 30;
         this.applyGravity();
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.direction) {
                 this.x -= 8;
             }

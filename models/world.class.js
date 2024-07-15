@@ -10,7 +10,6 @@ class World {
     coin_sound = new Audio('audio/coin.mp3');
     bottleCollect_sound = new Audio('audio/bottlecollect.mp3');
     chickenDead_sound = new Audio('audio/chickenDead.mp3');
-    win_or_lost =  new WinOrLost();
     offset = {
         top: 0,
         left: 0,
@@ -76,9 +75,9 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             //check collisions
-            this.checkCharacterAndEndbossEnergy();
+
             this.CheckCharacterAboveChicken();
             this.checkCollisions();
             this.checkCollisionsWithEndBoss();
@@ -86,26 +85,26 @@ class World {
             this.checkBottelCollisionWithEndBoss()
             this.checkCollisionsCoins();
             this.checkCollisionsBottles();
+            this.checkCharacterAndEndbossEnergy();
         }, 200);
     }
 
-    checkCharacterAndEndbossEnergy(){
-        if(this.character.energy == 0){
-            this.gameOver();
-        }else if(this.level.endboss.energy ==0){
-            this.youWin();
+    checkCharacterAndEndbossEnergy() {
+        if (this.character.energy == 0) {
+            gameRuning =false;
+            gameOver();
+
+        } else if (this.level.endboss.energy == 0) {
+            gameRuning =false;
+            youWin();
         }
     }
-
-    gameOver(){
-        this.addToMap(this.win_or_lost);
-    }
-
     CheckCharacterAboveChicken() {
         this.chicken_dead = false;
-        this.level.enemies.forEach((enemy, index) => {
-            if (this.character.isColliding(enemy)) {
-                if (this.character.speedY < 0) {
+        if (this.character.speedY < 0) {
+            this.level.enemies.forEach((enemy, index) => {
+                if (this.character.isColliding(enemy)) {
+
                     // console.log('speedyY:' + this.character.speedY);
                     this.chickenDead_sound.play();
                     this.character.speedY = 0;
@@ -115,8 +114,8 @@ class World {
                     // console.log('chicken dead!');
                     this.level.enemies.splice(index, 1);
                 }
-            }
-        });
+            });
+        }
     }
 
     checkThrowObjects() {
@@ -195,37 +194,39 @@ class World {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
+        if (gameRuning) {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
+            this.addObjectsToMap(this.level.backgroundObjects);
+            this.addObjectsToMap(this.level.clouds);
 
-        this.ctx.translate(-this.camera_x, 0); // Back
-        // --- space for fixed objects ---
+            this.ctx.translate(-this.camera_x, 0); // Back
+            // --- space for fixed objects ---
 
-        this.addToMap(this.status_bar);
-        this.addToMap(this.status_bar_coin);
-        this.addToMap(this.status_bar_bottles);
-        this.addToMap(this.status_bar_endboss);
+            this.addToMap(this.status_bar);
+            this.addToMap(this.status_bar_coin);
+            this.addToMap(this.status_bar_bottles);
+            this.addToMap(this.status_bar_endboss);
 
-        this.ctx.translate(this.camera_x, 0); // Forward
+            this.ctx.translate(this.camera_x, 0); // Forward
 
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.level.enemies);
+            this.addToMap(this.character);
+            this.addObjectsToMap(this.throwableObjects);
+            this.addObjectsToMap(this.level.bottles);
+            this.addObjectsToMap(this.level.enemies);
 
-        this.addObjectsToMap(this.level.coins);
-        this.addToMap(this.level.endboss);
+            this.addObjectsToMap(this.level.coins);
+            this.addToMap(this.level.endboss);
 
-        this.ctx.translate(-this.camera_x, 0);
+            this.ctx.translate(-this.camera_x, 0);
 
-        // Draw() wird immer aufgerufen 
-        let self = this;
-        requestAnimationFrame(() => {
-            self.draw();
-        });
+            // Draw() wird immer aufgerufen 
+            let self = this;
+            requestAnimationFrame(() => {
+                self.draw();
+            });
+        }
     }
 
     addObjectsToMap(objects) {

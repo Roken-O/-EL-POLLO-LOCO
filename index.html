@@ -29,28 +29,25 @@
     <script src="js/game.js"></script>
 </head>
 
-<body>
-    <h1> EL POLLO LOCO</h1>
-    <div>
-        <div id="fullscreen">
-            <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
-        </div>
-        <div id="overlay" class="overlay">
-            <button class="pulse" onclick="init()">START GAME</button>
-            <div class="emptyContainer"></div>
-            <div class="infoWidth">
-                <div onclick="showInfoWindow()" class="infoContainer pulse">
-                    <img src="img/info.png">
-                </div>
+<body id="maincontainer">
+    <div >
+        <h1> EL POLLO LOCO</h1>
+        <div class="fullscreenAndInfoContainer">
+            <div onclick="showInfoWindow()" class="infoContainer">
+                <img src="img/info.png">
+            </div>
+            <div class="fullscreenContainer" onclick="toggleFullscreen()">
+                <img src="img/fullscreen.png" alt="">
             </div>
         </div>
+        <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
+        <div id="overlay" class="overlay">
+            <button id="playGame" class="pulse" onclick="init()">START GAME</button>
+        </div>
 
-        <div onclick="hideInfoWindow()" id="infoWindow">Halllllllllllllllllllllllllllllll</div>
 
-
+        <div onclick="hideInfoWindow()" id="infoWindow"></div>
     </div>
-    </div>
-
 </body>
 
 </html>

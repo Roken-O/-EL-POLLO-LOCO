@@ -32,6 +32,7 @@ canvas {
 }
 
 h1,h2 {
+  text-align: center;
   font-size: 67px;
   letter-spacing: 8px;
   color: #603814;
@@ -98,38 +99,7 @@ h1,h2 {
   margin: 8px;
   /* animation: all ease-in-out 225ms; */
 }
-.infoWidth{
-  width:100%;
-  display: flex;
-  justify-content: flex-end;
-}
 
-.infoContainer{
-  width: 30px;
-  height: 30px;
-  background-color: #dcc831;
-  padding: 8px;
-  border-radius: 100%;
-  cursor: pointer;
-  margin-right:12px ;
-  border: 3px solid rgb(43, 41, 41)
-}
-
-.infoContainer:hover{
-  background-color: #ede375;
-}
-
-.infoContainer img{
-  width: 30px;
-  height: 30px;
-  opacity: 0.7;
-  
-}
-
-.emptyContainer{
-  width: 720px;
-  height: 370px;
-}
 
 #infoWindow {
   position: fixed;
@@ -223,3 +193,62 @@ h2 {
 .letterContainer span {
   font-weight: 700;
 }
+.fullscreenAndInfoContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  top:55px;
+  left:50px;
+}
+
+
+
+.infoContainer{
+  margin-right: 8px;
+  width: 25px;
+  height: 25px;
+  background-color: #dcc831;
+  padding: 4px;
+  border-radius: 100%;
+  cursor: pointer;
+  border: 3px solid rgb(43, 41, 41)
+}
+
+.infoContainer:hover{
+  background-color: #ede375;
+}
+
+.infoContainer img{
+  width: 23px;
+  height: 23px;
+  opacity: 0.7;
+  
+}
+.fullscreenContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  width: 25px;
+  height: 25px;
+  
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 100%;
+  border: 3px solid ;
+  background-color: #dcc831;
+}
+
+.fullscreenContainer:hover{
+  background-color: #ede375;
+}
+
+.fullscreenContainer img{
+  width: 22px;
+  height: 22px;
+  opacity: 0.7;
+}
+
+

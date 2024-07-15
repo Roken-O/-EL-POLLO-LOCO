@@ -53,7 +53,7 @@ class Endboss extends MovableObject {
 
     animate() {
         let i = 0;
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (i < 10) {
                 this.playAnimation(this.images_first_contact);
             } else {

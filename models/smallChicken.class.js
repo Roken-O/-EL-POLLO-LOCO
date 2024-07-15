@@ -20,7 +20,7 @@ class SmallChicken extends MovableObject {
     }
 
     animate(){
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.world.character.x > this.x) {
                 this.moveRight();
                 this.otherDirection = true;
@@ -33,7 +33,7 @@ class SmallChicken extends MovableObject {
                 this.playAnimation(this.images_first_contact); 
             }
         }, 200);
-        // setInterval(()=> {
+        // setStoppableInterval(()=> {
         //     this.playAnimation(this.images_Walking);
         // }, 200);
     }

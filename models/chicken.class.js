@@ -21,7 +21,7 @@ class Chicken extends MovableObject {
     }
 
     animate(){
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.world.character.x > this.x) {
                 this.moveRight();
                 this.otherDirection = true;
@@ -35,7 +35,7 @@ class Chicken extends MovableObject {
             }
         }, 200);
      
-        // setInterval(()=> {
+        // setStoppableInterval(()=> {
         //     this.playAnimation(this.images_Walking);
         // }, 200);
     }
