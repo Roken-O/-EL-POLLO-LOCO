@@ -33,6 +33,21 @@ speedY=5;
         }, 5000);
     }
 
+    applyGravity() {
+        setStoppableInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            } else {
+                this.speedY = 0;
+            }
+        }, 1000 / 25);
+    }
+
+    isAboveGround() {
+        return this.y < 370;
+}
+
     animate(){
         setStoppableInterval(() => {
             if (this.world.character.x > this.x) {
@@ -57,21 +72,4 @@ speedY=5;
             }
         }, 100);
     }
-
-
-
-    applyGravity() {
-        setStoppableInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            } else {
-                this.speedY = 0;
-            }
-        }, 1000 / 25);
-    }
-
-    isAboveGround() {
-        return this.y < 370;
-}
 }
