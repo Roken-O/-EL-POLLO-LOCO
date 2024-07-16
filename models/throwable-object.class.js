@@ -1,6 +1,5 @@
 class ThrowableObject extends MovableObject {
     hasCollided;
-
     images_bottle_rotation = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -33,7 +32,6 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.speedY = 30;
         this.applyGravity();
-
         setStoppableInterval(() => {
             this.playAnimation(this.images_bottle_rotation);
             if(this.hasCollided){
@@ -46,8 +44,5 @@ class ThrowableObject extends MovableObject {
                 this.x += 5;
             }
         }, 25);
-
-      
     }
-
 }

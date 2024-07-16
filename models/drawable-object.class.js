@@ -8,9 +8,8 @@ class DrawableObject {
     currentImage = 0;
     percentage;
 
-
     loadImage(path) {
-        this.img = new Image(); // this.img = document.getElementById('image') <img id = 'image' src>
+        this.img = new Image();
         this.img.src = path;
     }
 
@@ -23,22 +22,6 @@ class DrawableObject {
     }
 
     draw(ctx) {
-        // try{
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-        // }catch(e){
-        //     console.warn('Error loading image!', e);
-        //     console.log('couldnt load image', this.img.src)
-        // }
     }
-
-    // drawFrame(ctx) {
-    //     if (this instanceof Character || this instanceof Chicken || this instanceof Endboss ){
-    //         ctx.beginPath();
-    //         ctx.lineWidth = "4";
-    //         ctx.strokeStyle = "blue";
-    //         ctx.rect(this.x, this.y, this.width, this.height);
-    //         ctx.stroke();
-    //     }
-    // }
-
 }

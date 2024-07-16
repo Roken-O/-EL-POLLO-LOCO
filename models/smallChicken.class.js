@@ -1,19 +1,14 @@
-
-
 class SmallChicken extends MovableObject {
     width = 60;
     height = 60;
     y = 370;
-speedY=5;
-
-    
+    speedY = 5;
+    image_dead = ['img/3_enemies_chicken/chicken_small/2_dead/dead.png'];
     images_Walking = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
-
-    image_dead = ['img/3_enemies_chicken/chicken_small/2_dead/dead.png'];
 
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
@@ -21,7 +16,6 @@ speedY=5;
         this.loadImages(this.image_dead);
         this.x = 300 + Math.random() * 3000;
         this.speed = 0.15 + Math.random() * 7;
-        
         this.animate();
         this.applyGravity();
         this.startJumping();
@@ -30,7 +24,7 @@ speedY=5;
     startJumping() {
         setStoppableInterval(() => {
             this.jump();
-        }, 5000);
+        }, 4000);
     }
 
     applyGravity() {
@@ -46,29 +40,26 @@ speedY=5;
 
     isAboveGround() {
         return this.y < 370;
-}
+    }
 
-    animate(){
+    animate() {
         setStoppableInterval(() => {
             if (this.world.character.x > this.x) {
                 this.moveRight();
                 this.otherDirection = true;
-            } else if(this.world.character.x < this.x){
+            } else if (this.world.character.x < this.x) {
                 this.moveLeft();
                 this.otherDirection = false;
-
-            }else if(this.world.character.x == this.x){
-                this.moveRight(); 
+            } else if (this.world.character.x == this.x) {
+                this.moveRight();
                 this.otherDirection = true;
-                // this.x +=10;
             }
         }, 200);
-
         setStoppableInterval(() => {
-            if(this.isHurt()){
+            if (this.isHurt()) {
                 this.playAnimation(this.image_dead);
-            }else{
-            this.playAnimation(this.images_Walking);
+            } else {
+                this.playAnimation(this.images_Walking);
             }
         }, 100);
     }

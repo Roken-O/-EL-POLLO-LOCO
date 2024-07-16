@@ -10,6 +10,7 @@ class World {
     coin_sound = new Audio('audio/coin.mp3');
     bottleCollect_sound = new Audio('audio/bottlecollect.mp3');
     chickenDead_sound = new Audio('audio/chickenDead.mp3');
+    throwableObjects = [];
     offset = {
         top: 0,
         left: 0,
@@ -54,9 +55,6 @@ class World {
         'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
     ]);
 
-    throwableObjects = [];
-
-
     constructor(canvas, keyboard) {
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -77,7 +75,6 @@ class World {
     run() {
         setStoppableInterval(() => {
             //check collisions
-
             this.CheckCharacterAboveChicken();
             this.checkCollisions();
             this.checkBottelCollisionWithEnemy();
@@ -94,27 +91,20 @@ class World {
         if (this.character.energy == 0) {
             gameRuning = false;
             gameOver();
-
         } else if (this.level.endboss.energy == 0) {
             gameRuning = false;
             youWin();
         }
     }
+
     CheckCharacterAboveChicken() {
-        // if( this.character.speedY != -32.5){
-        // this.chicken_dead = false;
-        // if(this.character.isAboveGround()){
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                console.log('speedyY character above chicken:' + this.character.speedY);
                 if (this.character.speedY < -10) {
                     this.character.speedY = 0;
-
                     this.chickenDead_sound.play();
                     enemy.chicken_dead = true;
                     enemy.hit();
-                    // console.log('Energy:' + this.character.energy);
-                    console.log('chicken dead!');
                     setTimeout(() => {
                         let enemyIndex = this.level.enemies.indexOf(enemy);
                         if (enemyIndex > -1) {
@@ -144,10 +134,7 @@ class World {
                 if (this.level.endboss.energy > 0) {
                     this.level.endboss.energy -= 5;
                     this.level.endboss.hit();
-                    console.log(this.level.endboss.energy);
                     this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
-                } else {
-
                 }
             }
         });
@@ -168,7 +155,6 @@ class World {
                             this.level.enemies.splice(enemyIndex, 1);
                         }
                     }, 500);
-                    console.log('chicken dead!');
                 }
             });
         });
@@ -178,7 +164,6 @@ class World {
         if (this.character.isColliding(this.level.endboss)) {
             this.character.energy -= 5;
             this.character.hit();
-            // console.log('Energy:' + this.character.energy);
             this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
         }
     }
@@ -201,7 +186,6 @@ class World {
                     this.coin_sound.play();
                     this.collect_coins += 5;
                     this.status_bar_coin.setPercentage(this.collect_coins, this.status_bar_coin.images);
-                    // console.log(this.collect_coins);
                     this.level.coins.splice(index, 1);
                 }
             }
@@ -215,7 +199,6 @@ class World {
                     this.bottleCollect_sound.play();
                     this.collect_bottles += 10;
                     this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
-                    // console.log(this.collect_bottles);
                     this.level.bottles.splice(index, 1);
                 }
             }
@@ -232,7 +215,6 @@ class World {
 
             this.ctx.translate(-this.camera_x, 0); // Back
             // --- space for fixed objects ---
-
             this.addToMap(this.status_bar);
             this.addToMap(this.status_bar_coin);
             this.addToMap(this.status_bar_bottles);
@@ -269,8 +251,6 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

@@ -1,9 +1,11 @@
 class Endboss extends MovableObject {
     width = 250;
     height = 400;
-
     x = 2500;
     y = 55;
+    energy = 100;
+    hadFirstContact = false;
+    world;
 
     images_first_contact = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -35,55 +37,60 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    energy = 100;
-    hadFirstContact = false;
-    world;
-
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.images_first_contact);
         this.loadImages(this.images_Walking);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
-
         this.speed = 30;
-
         this.animate();
     }
 
     animate() {
         let i = 0;
         setStoppableInterval(() => {
+            this.playAnimation(this.images_Walking);
             if (i < 10) {
                 this.playAnimation(this.images_first_contact);
             } else {
                 if (this.hadFirstContact) {
-                    if (this.world.character.x > this.x) {
-                        this.moveRight();
-                        this.otherDirection = true;
-                        this.playAnimation(this.images_Walking);
-                    }else if(this.isHurt()){
-                        this.playAnimation(this.images_hurt);
-                    }else if(this.isDead()){
-                        this.playAnimation(this.images_dead);
-                    } else if(this.world.character.x <= this.x){
-                        this.moveLeft();
-                        this.otherDirection = false;
-                        this.playAnimation(this.images_Walking);
-                    }else if(this.world.character.x == this.x){
-                        this.moveRight(); 
-                        this.otherDirection = true;
-                        this.playAnimation(this.images_first_contact); 
-                    }
+                    this.checkEndbossAnimation()
                 }
             }
             i++;
 
-            if (this.world.character.x > 2000 && !this.hadFirstContact) {
-                i = 0;
-                this.hadFirstContact = true;
-                console.log('character x:' + this.world.character.x);
+            if (this.checkFirstContact()) {
+                this.firstContsct(i);
             }
         }, 200);
+    }
+
+    checkFirstContact(){
+        return this.world.character.x > 2000 && !this.hadFirstContact;
+    }
+
+    firstContsct(i){
+        i = 0;
+        this.hadFirstContact = true;
+        console.log('character x:' + this.world.character.x);
+    }
+
+    checkEndbossAnimation(){
+        if (this.world.character.x > this.x) {
+            this.moveRight();
+            this.otherDirection = true;
+        }else if(this.isHurt()){
+            this.playAnimation(this.images_hurt);
+        }else if(this.isDead()){
+            this.playAnimation(this.images_dead);
+        } else if(this.world.character.x <= this.x){
+            this.moveLeft();
+            this.otherDirection = false;
+        }else if(this.world.character.x == this.x){
+            this.moveRight(); 
+            this.otherDirection = true;
+            this.playAnimation(this.images_first_contact); 
+        }
     }
 }
