@@ -16,7 +16,12 @@ class Bottles extends MovableObject {
 
     animateCoins() {
         setStoppableInterval(() => {
-            this.playAnimation(this.images);
+            if (this.y < 360) {
+                this.loadImage('img/6_salsa_bottle/salsa_bottle.png');
+            }
+            else {
+                this.playAnimation(this.images);
+            }
         }, 350);
     }
 }

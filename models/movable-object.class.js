@@ -34,11 +34,13 @@ class MovableObject extends DrawableObject {
 
     // character.isColliding(chicken);
     isColliding(mo) {
-        return this.x + this.width - this.offset.right >= mo.x &&
-            this.y + this.height - this.offset.bottom> mo.y &&
-            this.x + this.offset.left < mo.x
-            && this.y  + this.offset.top < mo.y + mo.height;
-    }
+        return (
+          this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+          this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+          this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+          this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+        );
+      }
 
     // isColliding(mo) {
     //     return this.x + this.width - this.offset.right >= mo.x &&
@@ -56,10 +58,6 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    // hitEndboss(){
-    //     return true;
-    // }
-
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Difference im ms
         timepassed = timepassed / 1000; //Difference in s
@@ -71,12 +69,9 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
-    // checkCharacterX(){
-    //     // return this.character.x > 2200;
-    //     if(this.x > 2200){
-    //     console.log('first mate!');
-    //     }
-    // }
+    jump() {
+       return this.speedY = 30;
+    }
 
     moveRight() {
         this.x += this.speed;

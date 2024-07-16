@@ -55,7 +55,7 @@ class World {
     ]);
 
     throwableObjects = [];
-    chicken_dead = false;
+
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -80,6 +80,7 @@ class World {
 
             this.CheckCharacterAboveChicken();
             this.checkCollisions();
+            this.checkBottelCollisionWithEnemy();
             this.checkCollisionsWithEndBoss();
             this.checkThrowObjects();
             this.checkBottelCollisionWithEndBoss()
@@ -91,31 +92,38 @@ class World {
 
     checkCharacterAndEndbossEnergy() {
         if (this.character.energy == 0) {
-            gameRuning =false;
+            gameRuning = false;
             gameOver();
 
         } else if (this.level.endboss.energy == 0) {
-            gameRuning =false;
+            gameRuning = false;
             youWin();
         }
     }
     CheckCharacterAboveChicken() {
-        this.chicken_dead = false;
-        if (this.character.speedY < 0) {
-            this.level.enemies.forEach((enemy, index) => {
-                if (this.character.isColliding(enemy)) {
-
-                    // console.log('speedyY:' + this.character.speedY);
-                    this.chickenDead_sound.play();
+        // if( this.character.speedY != -32.5){
+        // this.chicken_dead = false;
+        // if(this.character.isAboveGround()){
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                console.log('speedyY character above chicken:' + this.character.speedY);
+                if (this.character.speedY < -10) {
                     this.character.speedY = 0;
-                    this.chicken_dead = true;
 
+                    this.chickenDead_sound.play();
+                    enemy.chicken_dead = true;
+                    enemy.hit();
                     // console.log('Energy:' + this.character.energy);
-                    // console.log('chicken dead!');
-                    this.level.enemies.splice(index, 1);
+                    console.log('chicken dead!');
+                    setTimeout(() => {
+                        let enemyIndex = this.level.enemies.indexOf(enemy);
+                        if (enemyIndex > -1) {
+                            this.level.enemies.splice(enemyIndex, 1);
+                        }
+                    }, 500);
                 }
-            });
-        }
+            }
+        });
     }
 
     checkThrowObjects() {
@@ -131,9 +139,10 @@ class World {
 
     checkBottelCollisionWithEndBoss() {
         this.throwableObjects.forEach((bottle) => {
-            if (bottle.isColliding(this.level.endboss)) {
+            if (bottle.isColliding(this.level.endboss) && !bottle.hasCollided) {
+                bottle.hasCollided = true;
                 if (this.level.endboss.energy > 0) {
-                    this.level.endboss.energy -= 15;
+                    this.level.endboss.energy -= 5;
                     this.level.endboss.hit();
                     console.log(this.level.endboss.energy);
                     this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
@@ -141,6 +150,27 @@ class World {
 
                 }
             }
+        });
+    }
+
+    checkBottelCollisionWithEnemy() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy) && !bottle.hasCollided) {
+                    bottle.hasCollided = true;
+                    this.chickenDead_sound.play();
+                    this.character.speedY = 0;
+                    enemy.chicken_dead = true;
+                    enemy.hit();
+                    setTimeout(() => {
+                        let enemyIndex = this.level.enemies.indexOf(enemy);
+                        if (enemyIndex > -1) {
+                            this.level.enemies.splice(enemyIndex, 1);
+                        }
+                    }, 500);
+                    console.log('chicken dead!');
+                }
+            });
         });
     }
 
@@ -156,12 +186,11 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (!this.chicken_dead) {
+                if (!enemy.chicken_dead) {
                     this.character.hit();
                     this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
                 }
             }
-
         });
     }
 

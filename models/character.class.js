@@ -135,9 +135,7 @@ class Character extends MovableObject {
         }, 50);
     }
 
-    jump() {
-        this.speedY = 30;
-    }
+    
 
     isIdle() {
         return !this.world.keyboard.SPACE &&

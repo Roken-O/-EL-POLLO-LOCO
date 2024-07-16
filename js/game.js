@@ -125,7 +125,7 @@ function gameOver() {
     let overlay = document.getElementById('overlay');
     document.getElementById('canvas').classList.add('d-none');
     overlay.classList.remove('d-none');
-   
+
     overlay.style.backgroundImage = "url('img/9_intro_outro_screens/game_over/oh no you lost!.png')," +
         "url('img/2_character_pepe/3_jump/J-35.png'), " +
         "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
@@ -142,27 +142,27 @@ function gameOver() {
 function youWin() {
     stopGame();
 
-        let overlay = document.getElementById('overlay');
-        document.getElementById('canvas').classList.add('d-none');
-        overlay.classList.remove('d-none');
-       
-        overlay.style.backgroundImage = "url('img/9_intro_outro_screens/win/won_1.png')," +
-            "url('img/2_character_pepe/3_jump/J-35.png'), " +
-            "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
-            "url('img/8_coin/coin_1.png'), " +
-            "url('img/8_coin/coin_1.png'), " +
-            "url('img/5_background/layers/4_clouds/1.png')," +
-            "url('img/5_background/layers/air.png')";
-        overlay.style.backgroundSize = "40% 20%, 40% 80%, 40% 30%, 20% 20%, 50% 50%, 100% 100%, 100% 100%";
-        overlay.style.backgroundRepeat = "no-repeat";
-        overlay.style.backgroundPosition = "center center, bottom left, bottom center, top center, top right";
-        document.getElementById('playGame').innerHTML = 'Play Game again';
+    let overlay = document.getElementById('overlay');
+    document.getElementById('canvas').classList.add('d-none');
+    overlay.classList.remove('d-none');
+
+    overlay.style.backgroundImage = "url('img/9_intro_outro_screens/win/won_1.png')," +
+        "url('img/2_character_pepe/3_jump/J-35.png'), " +
+        "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
+        "url('img/8_coin/coin_1.png'), " +
+        "url('img/8_coin/coin_1.png'), " +
+        "url('img/5_background/layers/4_clouds/1.png')," +
+        "url('img/5_background/layers/air.png')";
+    overlay.style.backgroundSize = "40% 20%, 40% 80%, 40% 30%, 20% 20%, 50% 50%, 100% 100%, 100% 100%";
+    overlay.style.backgroundRepeat = "no-repeat";
+    overlay.style.backgroundPosition = "center center, bottom left, bottom center, top center, top right";
+    document.getElementById('playGame').innerHTML = 'Play Game again';
 }
 
 function toggleFullscreen() {
     let maincontainer = document.getElementById("maincontainer");
 
-    if (!document.fullscreenElement) { 
+    if (!document.fullscreenElement) {
         openFullscreen(maincontainer);
     } else {
         closeFullscreen();
@@ -189,3 +189,17 @@ function closeFullscreen() {
         document.msExitFullscreen();
     }
 }
+
+// window.addEventListener('resize', checkOrientation);
+// window.addEventListener('orientationchange', checkOrientation);
+
+// function checkOrientation() {
+//     let landscapeOverlay = document.getElementById('landscapeOverlay');
+//     if (window.innerHeight > window.innerWidth) {
+        
+//             landscapeOverlay.style.display = 'flex';
+        
+//     } else{
+//         landscapeOverlay.style.display = 'none';
+//     }
+// }

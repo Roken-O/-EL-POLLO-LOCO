@@ -31,7 +31,7 @@
 
 <body id="maincontainer">
     <div >
-        <h1> EL POLLO LOCO</h1>
+        <h1 id="gameName"> EL POLLO LOCO</h1>
         <div class="fullscreenAndInfoContainer">
             <div onclick="showInfoWindow()" class="infoContainer">
                 <img src="img/info.png">
@@ -44,10 +44,12 @@
         <div id="overlay" class="overlay">
             <button id="playGame" class="pulse" onclick="init()">START GAME</button>
         </div>
-
-
         <div onclick="hideInfoWindow()" id="infoWindow"></div>
     </div>
+
+    <!-- <div id="landscapeOverlay" class="landscape-overlay">
+        <p>Turn your device to play</p>
+    </div> -->
 </body>
 
 </html>
