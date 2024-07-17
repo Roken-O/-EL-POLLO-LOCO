@@ -1,9 +1,9 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-
 let intervalIds = [];
 let gameRuning = true;
+let isInfoWindowOpen = false;
 let game_sound = new Audio('audio/gameSound.mp3');
 let game_sound_win = new Audio('audio/gameWin.mp3');
 let game_over_sound = new Audio('audio/gameover.mp3');
@@ -24,7 +24,6 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode == 38) {
         keyboard.UP = true;
     }
-
     if (e.keyCode == 40) {
         keyboard.DOWN = true;
     }
@@ -43,12 +42,10 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-
 window.addEventListener('keyup', (e) => {
     if (e.keyCode == 38) {
         keyboard.UP = false;
     }
-
     if (e.keyCode == 40) {
         keyboard.DOWN = false;
     }
@@ -65,40 +62,88 @@ window.addEventListener('keyup', (e) => {
     if (e.keyCode == 68) {
         keyboard.D = false;
     }
-    // console.log(e);
 });
+
+document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.LEFT = true;
+});
+
+document.getElementById('btnLeft').addEventListener('touchend', (e) => {
+    e.preventDefault();
+    keyboard.LEFT = false;
+});
+
+document.getElementById('btnRight').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = true;
+});
+
+document.getElementById('btnRight').addEventListener('touchend', (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = false;
+});
+
+document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.D = true;
+});
+
+document.getElementById('btnThrow').addEventListener('touchend', (e) => {
+    e.preventDefault();
+    keyboard.D = false;
+});
+
+document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.SPACE = true;
+});
+
+document.getElementById('btnJump').addEventListener('touchend', (e) => {
+    e.preventDefault();
+    keyboard.SPACE = false;
+});
+
+function toggleInfoWindow() {
+    if (!isInfoWindowOpen) {
+        showInfoWindow();
+    } else {
+        hideInfoWindow();
+    }
+}
 
 function showInfoWindow() {
     let infoWindow = document.getElementById('infoWindow');
     infoWindow.style.display = 'flex';
-    infoWindow.innerHTML = /*html*/`
-    <div id="popup-infoWindow-container" class="popup-infoWindow-container"  onclick="doNotClose(event)">
+    infoWindow.innerHTML = `
+    <div id="popup-infoWindow-container" class="popup-infoWindow-container" onclick="doNotClose(event)">
       <h2>Controls</h2>
       <div class="controlsContainer">
             <div class="sub-controlsContainer">
-                    <div class="letterContainer"><span>D</span></div>
+                    <div class="letterContainer"><span id="throwBtn">D</span></div>
                     <div>Throw bottles</div>
             </div>
             <div class="sub-controlsContainer">
-                    <div class="letterContainer"><span>></span></div>
+                    <div class="letterContainer"><span id="rightBtn">></span></div>
                     <div>Move right</div>
             </div>
             <div class="sub-controlsContainer">
-                    <div class="letterContainer"><span><</span></div>
+                    <div class="letterContainer"><span id="leftBtn"><</span></div>
                     <div>Move left</div>
             </div>
             <div class="sub-controlsContainer">
-                    <div class="letterContainer spacebar"><span>spacebar</span></div>
+                    <div id="jumpBtnContainer" class="letterContainer spacebar"><span id="jumpBtn">spacebar</span></div>
                     <div>Jump</div>
             </div>
       </div>
 
    </div>`;
 
+    checkButtunsInfoInnerHTML();
     setTimeout(() => {
         document.getElementById('popup-infoWindow-container').classList.add('animate-popup-infoWindow-container');
     }, 200);
-
+    isInfoWindowOpen = true;
 }
 
 function hideInfoWindow() {
@@ -108,6 +153,17 @@ function hideInfoWindow() {
             document.getElementById('infoWindow').style.display = 'none';
         }, 200);
     }, 200);
+    isInfoWindowOpen = false;
+}
+
+function checkButtunsInfoInnerHTML(){
+    if (window.innerWidth < 933) {
+        document.getElementById('jumpBtnContainer').classList.remove('spacebar');
+        document.getElementById('throwBtn').innerHTML = '➶';
+        document.getElementById('leftBtn').innerHTML = '◄';
+        document.getElementById('rightBtn').innerHTML = '►';
+        document.getElementById('jumpBtn').innerHTML = '▲';
+    }
 }
 
 function doNotClose(event) {
@@ -199,11 +255,11 @@ window.addEventListener('orientationchange', checkOrientation);
 
 function checkOrientation() {
     let landscapeOverlay = document.getElementById('landscapeOverlay');
-        if (window.innerWidth < 933 && window.innerHeight > window.innerWidth ) {
-            // Mobile und im Hochformat
-            landscapeOverlay.style.display = 'flex';
-        } else {
-            // Desktop oder mobiles Gerät im Querformat
-            landscapeOverlay.style.display = 'none';
-        }
+    if (window.innerWidth < 933 && window.innerHeight > window.innerWidth) {
+        // Mobile und im Hochformat
+        landscapeOverlay.style.display = 'flex';
+    } else {
+        // Desktop oder mobiles Gerät im Querformat
+        landscapeOverlay.style.display = 'none';
+    }
 }

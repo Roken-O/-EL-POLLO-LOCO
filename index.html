@@ -26,30 +26,43 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="levels/level1.js"></script>
 
-    <script src="js/game.js"></script>
+   
 </head>
 
 <body id="maincontainer">
     <h1 id="gameName"> EL POLLO LOCO</h1>
-    <div id="canvasAndOverlayContainer">
+
     <div class="fullscreenAndInfoContainer">
-        <div onclick="showInfoWindow()" class="infoContainer">
+        <div onclick="toggleInfoWindow()" class="infoContainer">
             <img src="img/info.png">
+        </div>
+        <div class="controlsContainer-mobile">
+            <div class="flex">
+                <div id="btnLeft" class="letterContainer-mobile m-right"><span>◄</span></div>
+                <div id="btnRight" class="letterContainer-mobile"><span>►</span></div>
+            </div>
+            <div onclick="toggleInfoWindow()" class="letterContainer-mobile">
+                <img src="img/info.png">
+            </div>
+            <div class="flex">
+                <div id="btnThrow" class="letterContainer-mobile m-right"><span>➶</span></div>
+                <div id="btnJump" class="letterContainer-mobile"><span>▲</span></div>
+            </div>
         </div>
         <div class="fullscreenContainer" onclick="toggleFullscreen()">
             <img src="img/fullscreen.png" alt="">
         </div>
     </div>
-    
+    <div id="canvasAndOverlayContainer">
         <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
         <div id="overlay" class="overlay">
             <button id="playGame" class="pulse" onclick="init()">START GAME</button>
         </div>
         <div onclick="hideInfoWindow()" id="infoWindow"></div>
     </div>
-
     <div id="landscapeOverlay" class="landscape-overlay">Turn your device to play
     </div>
+    <script src="js/game.js"></script>
 </body>
 
 </html>
