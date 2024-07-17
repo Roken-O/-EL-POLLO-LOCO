@@ -8,6 +8,10 @@ let game_sound = new Audio('audio/gameSound.mp3');
 let game_sound_win = new Audio('audio/gameWin.mp3');
 let game_over_sound = new Audio('audio/gameover.mp3');
 
+/**
+* Initializes the game by setting up the canvas, level, and world.
+* Also starts the game sound and hides the overlay.
+*/
 function init() {
     game_sound.play();
     gameRuning = true;
@@ -15,9 +19,7 @@ function init() {
     initLevel();
     world = new World(canvas, keyboard);
     document.getElementById('overlay').classList.add('d-none');
-
     canvas.classList.remove('d-none');
-    console.log('My World is', world['character']);
 }
 
 window.addEventListener('keydown', (e) => {
@@ -104,6 +106,9 @@ document.getElementById('btnJump').addEventListener('touchend', (e) => {
     keyboard.SPACE = false;
 });
 
+/**
+ * Toggles the visibility of the information window.
+ */
 function toggleInfoWindow() {
     if (!isInfoWindowOpen) {
         showInfoWindow();
@@ -112,6 +117,9 @@ function toggleInfoWindow() {
     }
 }
 
+/**
+ * Displays the information window with game controls.
+ */
 function showInfoWindow() {
     let infoWindow = document.getElementById('infoWindow');
     infoWindow.style.display = 'flex';
@@ -146,6 +154,9 @@ function showInfoWindow() {
     isInfoWindowOpen = true;
 }
 
+/**
+ * Hides the information window.
+ */
 function hideInfoWindow() {
     setTimeout(() => {
         document.getElementById('popup-infoWindow-container').classList.remove('animate-popup-infoWindow-container');
@@ -156,6 +167,9 @@ function hideInfoWindow() {
     isInfoWindowOpen = false;
 }
 
+/**
+ * Adjusts the information window's button labels based on the window width.
+ */
 function checkButtunsInfoInnerHTML(){
     if (window.innerWidth < 933) {
         document.getElementById('jumpBtnContainer').classList.remove('spacebar');
@@ -166,20 +180,35 @@ function checkButtunsInfoInnerHTML(){
     }
 }
 
+/**
+ * Prevents the information window from closing when clicked inside.
+ * @param {Event} event - The event object.
+ */
 function doNotClose(event) {
     event.stopPropagation();
 }
 
+/**
+ * Sets an interval that can be stopped later and stores the interval ID.
+ * @param {Function} fn - The function to be executed.
+ * @param {number} time - The interval time in milliseconds.
+ */
 function setStoppableInterval(fn, time) {
     let id = setInterval(fn, time);
     intervalIds.push(id);
 }
 
+/**
+ * Stops all intervals stored in the intervalIds array.
+ */
 function stopGame() {
     intervalIds.forEach(clearInterval);
     intervalIds = [];
 }
 
+/**
+ * Ends the game and displays the game over screen.
+ */
 function gameOver() {
     let overlay = document.getElementById('overlay');
     gameEnded(overlay);
@@ -189,17 +218,22 @@ function gameOver() {
     overlay.style.backgroundPosition = "center center, bottom left, bottom center, top center, center right";
 }
 
+/**
+ * Ends the game and displays the victory screen.
+ */
 function youWin() {
     let overlay = document.getElementById('overlay');
     gameEnded(overlay);
     game_sound_win.play();
     overlay.style.backgroundImage = "url('img/9_intro_outro_screens/win/won_1.png')," + returnImage();
     overlay.style.backgroundSize = "40% 20%, 40% 80%, 40% 30%, 20% 20%, 50% 50%, 100% 100%, 100% 100%";
-
-
     document.getElementById('playGame').innerHTML = 'Play Game again';
 }
 
+/**
+ * Ends the game and stops the game sound. Shows the end game overlay.
+ * @param {HTMLElement} overlay - The overlay element to display.
+ */
 function gameEnded(overlay) {
     game_sound.pause();
     stopGame();
@@ -210,6 +244,10 @@ function gameEnded(overlay) {
     document.getElementById('playGame').innerHTML = 'Play Game again';
 }
 
+/**
+ * Returns the background image URLs for the end game overlay.
+ * @returns {string} - The concatenated background image URLs.
+ */
 function returnImage() {
     return "url('img/2_character_pepe/3_jump/J-35.png'), " +
         "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
@@ -219,9 +257,11 @@ function returnImage() {
         "url('img/5_background/layers/air.png')";
 }
 
+/**
+ * Toggles fullscreen mode for the main container.
+ */
 function toggleFullscreen() {
     let maincontainer = document.getElementById("maincontainer");
-
     if (!document.fullscreenElement) {
         openFullscreen(maincontainer);
     } else {
@@ -229,6 +269,10 @@ function toggleFullscreen() {
     }
 }
 
+/**
+ * Opens fullscreen mode for the specified element.
+ * @param {HTMLElement} elem - The element to display in fullscreen.
+ */
 function openFullscreen(elem) {
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -239,7 +283,9 @@ function openFullscreen(elem) {
     }
 }
 
-/* Close fullscreen */
+/**
+ * Closes fullscreen mode.
+ */
 function closeFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -253,13 +299,14 @@ function closeFullscreen() {
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
 
+/**
+ * Checks the device orientation and displays a rotation message if needed.
+ */
 function checkOrientation() {
     let rotation = document.getElementById('rotation');
     if (window.innerWidth < 933 && window.innerHeight > window.innerWidth) {
-        // Mobile und im Hochformat
         rotation.style.display = 'flex';
     } else {
-        // Desktop oder mobiles Gerät im Querformat
         rotation.style.display = 'none';
     }
 }

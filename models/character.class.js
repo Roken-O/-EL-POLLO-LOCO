@@ -1,21 +1,44 @@
+/**
+ * Represents a character in the game.
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
+    /** @type {number} The height of the character. */
     height = 300;
+
+    /** @type {number} The width of the character. */
     width = 150;
+
+    /** @type {number} The y-coordinate position of the character. */
     y = 130;
+
+    /** @type {number} The speed at which the character moves. */
     speed = 5;
+
+    /** @type {number} The timestamp of the last movement of the character. */
     lastMoveTime = 0;
+
+    /** @type {World} The world in which the character exists. */
     world;
+
+    /** @type {Audio} The sound played when the character is walking. */
     walking_sound = new Audio('audio/walking.mp3');
+
+    /** @type {Audio} The sound played when the character jumps. */
     jump_sound = new Audio('audio/jump.mp3');
+
+    /** @type {Audio} The sound played when the character is hurt. */
     hurt_sound = new Audio('audio/hurt.mp3');
 
+    /** @type {Object} The offset values for collision detection. */
     offset = {
         top: 120,
         bottom: 15,
         left: 30,
         right: 40
-    }
+    };
 
+    /** @type {string[]} The array of image paths for walking animation. */
     images_Walking = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -25,6 +48,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
+    /** @type {string[]} The array of image paths for jumping animation. */
     images_jumping = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -37,6 +61,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+    /** @type {string[]} The array of image paths for dead animation. */
     images_dead = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -47,12 +72,14 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png',
     ];
 
+    /** @type {string[]} The array of image paths for hurt animation. */
     images_hurt = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
 
+    /** @type {string[]} The array of image paths for idle animation. */
     images_idle = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -66,6 +93,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
+    /** @type {string[]} The array of image paths for sleeping animation. */
     images_sleeping = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -79,6 +107,9 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
+    /**
+     * Creates an instance of Character.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.images_Walking);
@@ -91,6 +122,9 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Initiates the character's animation loop.
+     */
     animate() {
         setStoppableInterval(() => {
             this.walking_sound.pause();
@@ -112,7 +146,6 @@ class Character extends MovableObject {
                 this.jump_sound.play();
                 this.lastMoveTime = new Date().getTime();
             }
-
             this.world.camera_x = -this.x + 200;
         }, 1000 / 60);
 
@@ -132,8 +165,10 @@ class Character extends MovableObject {
         }, 50);
     }
 
-    
-
+    /**
+     * Checks if the character is idle.
+     * @returns {boolean} True if the character is idle; false otherwise.
+     */
     isIdle() {
         return !this.world.keyboard.SPACE &&
             !this.world.keyboard.UP &&
@@ -143,6 +178,9 @@ class Character extends MovableObject {
             !this.world.keyboard.DOWN;
     }
 
+    /**
+     * Plays the idle or sleeping animation based on the character's activity.
+     */
     playIdleOrSleepingAnimation() {
         let timeSinceLastMove = new Date().getTime() - this.lastMoveTime;
         if (timeSinceLastMove < 2000) {

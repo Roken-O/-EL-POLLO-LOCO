@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" href="img/hut.png" />
     <link rel="Stylesheet" href="style.css">
     <title>El Pollo Loco</title>
+    <!-- External Scripts for Game Models -->
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
-    <script src="models/win-or-lost.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
     <script src="models/smallChicken.class.js"></script>
@@ -22,46 +22,63 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
-
     <script src="models/throwable-object.class.js"></script>
     <script src="levels/level1.js"></script>
-
-   
 </head>
 
 <body id="maincontainer">
+    <!-- Game Title -->
     <h1 id="gameName"> EL POLLO LOCO</h1>
 
+    <!-- Controls and Fullscreen Container -->
     <div class="fullscreenAndInfoContainer">
+        <!-- Info Button Container -->
         <div onclick="toggleInfoWindow()" class="infoContainer">
             <img src="img/info.png">
         </div>
+
+        <!-- Mobile Controls Container -->
         <div class="controlsContainer-mobile">
+            <!-- Left and Right Movement Buttons -->
             <div class="flex">
                 <div id="btnLeft" class="letterContainer-mobile m-right"><span>◄</span></div>
                 <div id="btnRight" class="letterContainer-mobile"><span>►</span></div>
             </div>
+            <!-- Info Button for Mobile -->
             <div onclick="toggleInfoWindow()" class="letterContainer-mobile">
                 <img src="img/info.png">
             </div>
+            <!-- Throw and Jump Buttons -->
             <div class="flex">
                 <div id="btnThrow" class="letterContainer-mobile m-right"><span>➶</span></div>
                 <div id="btnJump" class="letterContainer-mobile"><span>▲</span></div>
             </div>
         </div>
+
+        <!-- Fullscreen Toggle Container -->
         <div class="fullscreenContainer" onclick="toggleFullscreen()">
             <img src="img/fullscreen.png" alt="">
         </div>
     </div>
+
+    <!-- Canvas and Overlay Container -->
     <div id="canvasAndOverlayContainer">
+        <!-- Game Canvas -->
         <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
+
+        <!-- Overlay Div -->
         <div id="overlay" class="overlay">
             <button id="playGame" class="pulse" onclick="init()">START GAME</button>
         </div>
+
+        <!-- Info Window Overlay -->
         <div onclick="hideInfoWindow()" id="infoWindow"></div>
     </div>
-    <div id="rotation" class="rotation">Turn your device to play
-    </div>
+
+    <!-- Rotation Message for Mobile Devices -->
+    <div id="rotation" class="rotation">Turn your device to play</div>
+
+    <!-- Game Script -->
     <script src="js/game.js"></script>
 </body>
 
