@@ -6,6 +6,7 @@ class Endboss extends MovableObject {
     energy = 100;
     hadFirstContact = false;
     world;
+    endboss_hurt_sound = new Audio('audio/endbossHurt.mp3');
 
     images_first_contact = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -81,6 +82,7 @@ class Endboss extends MovableObject {
             this.moveRight();
             this.otherDirection = true;
         }else if(this.isHurt()){
+            this.endboss_hurt_sound.play();
             this.playAnimation(this.images_hurt);
         }else if(this.isDead()){
             this.playAnimation(this.images_dead);

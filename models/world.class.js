@@ -209,7 +209,6 @@ class World {
         if (gameRuning) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.ctx.translate(this.camera_x, 0);
-
             this.addObjectsToMap(this.level.backgroundObjects);
             this.addObjectsToMap(this.level.clouds);
 
@@ -251,6 +250,8 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
+        // mo.drawFrame(this.ctx);
+
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

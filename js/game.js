@@ -4,8 +4,12 @@ let keyboard = new Keyboard();
 
 let intervalIds = [];
 let gameRuning = true;
+let game_sound = new Audio('audio/gameSound.mp3');
+let game_sound_win = new Audio('audio/gameWin.mp3');
+let game_over_sound = new Audio('audio/gameover.mp3');
 
 function init() {
+    game_sound.play();
     gameRuning = true;
     canvas = document.getElementById('canvas');
     initLevel();
@@ -121,42 +125,42 @@ function stopGame() {
 }
 
 function gameOver() {
-    stopGame();
     let overlay = document.getElementById('overlay');
-    document.getElementById('canvas').classList.add('d-none');
-    overlay.classList.remove('d-none');
-
-    overlay.style.backgroundImage = "url('img/9_intro_outro_screens/game_over/oh no you lost!.png')," +
-        "url('img/2_character_pepe/3_jump/J-35.png'), " +
-        "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
-        "url('img/8_coin/coin_1.png'), " +
-        "url('img/8_coin/coin_1.png'), " +
-        "url('img/5_background/layers/4_clouds/1.png')," +
-        "url('img/5_background/layers/air.png')";
+    gameEnded(overlay);
+    game_over_sound.play();
+    overlay.style.backgroundImage = "url('img/9_intro_outro_screens/game_over/oh no you lost!.png')," + returnImage();
     overlay.style.backgroundSize = "100% 100%, 40% 80%, 40% 30%, 20% 20%, 50% 50%, 100% 100%, 100% 100%";
-    overlay.style.backgroundRepeat = "no-repeat";
     overlay.style.backgroundPosition = "center center, bottom left, bottom center, top center, center right";
-    document.getElementById('playGame').innerHTML = 'Play Game again';
 }
 
 function youWin() {
-    stopGame();
-
     let overlay = document.getElementById('overlay');
+    gameEnded(overlay);
+    game_sound_win.play();
+    overlay.style.backgroundImage = "url('img/9_intro_outro_screens/win/won_1.png')," + returnImage();
+    overlay.style.backgroundSize = "40% 20%, 40% 80%, 40% 30%, 20% 20%, 50% 50%, 100% 100%, 100% 100%";
+
+
+    document.getElementById('playGame').innerHTML = 'Play Game again';
+}
+
+function gameEnded(overlay) {
+    game_sound.pause();
+    stopGame();
     document.getElementById('canvas').classList.add('d-none');
     overlay.classList.remove('d-none');
+    overlay.style.backgroundRepeat = "no-repeat";
+    overlay.style.backgroundPosition = "center center, bottom left, bottom center, top center, top right";
+    document.getElementById('playGame').innerHTML = 'Play Game again';
+}
 
-    overlay.style.backgroundImage = "url('img/9_intro_outro_screens/win/won_1.png')," +
-        "url('img/2_character_pepe/3_jump/J-35.png'), " +
+function returnImage() {
+    return "url('img/2_character_pepe/3_jump/J-35.png'), " +
         "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
         "url('img/8_coin/coin_1.png'), " +
         "url('img/8_coin/coin_1.png'), " +
         "url('img/5_background/layers/4_clouds/1.png')," +
         "url('img/5_background/layers/air.png')";
-    overlay.style.backgroundSize = "40% 20%, 40% 80%, 40% 30%, 20% 20%, 50% 50%, 100% 100%, 100% 100%";
-    overlay.style.backgroundRepeat = "no-repeat";
-    overlay.style.backgroundPosition = "center center, bottom left, bottom center, top center, top right";
-    document.getElementById('playGame').innerHTML = 'Play Game again';
 }
 
 function toggleFullscreen() {
@@ -190,16 +194,16 @@ function closeFullscreen() {
     }
 }
 
-// window.addEventListener('resize', checkOrientation);
-// window.addEventListener('orientationchange', checkOrientation);
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', checkOrientation);
 
-// function checkOrientation() {
-//     let landscapeOverlay = document.getElementById('landscapeOverlay');
-//     if (window.innerHeight > window.innerWidth) {
-        
-//             landscapeOverlay.style.display = 'flex';
-        
-//     } else{
-//         landscapeOverlay.style.display = 'none';
-//     }
-// }
+function checkOrientation() {
+    let landscapeOverlay = document.getElementById('landscapeOverlay');
+        if (window.innerWidth < 933 && window.innerHeight > window.innerWidth ) {
+            // Mobile und im Hochformat
+            landscapeOverlay.style.display = 'flex';
+        } else {
+            // Desktop oder mobiles Gerät im Querformat
+            landscapeOverlay.style.display = 'none';
+        }
+}

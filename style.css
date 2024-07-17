@@ -6,6 +6,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: 'zabars', Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 
 body::before {
@@ -25,13 +26,24 @@ body::before {
   z-index: -1;
 }
 
+#canvasAndOverlayContainer {
+  /* position: relative;
+  width: 100%;
+  height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 canvas {
+  display: block;
   background-color: black;
   box-shadow: 24px 16px 16px #603814c2;
   border-radius: 40px;
 }
 
-h1,h2 {
+h1,
+h2 {
   text-align: center;
   font-size: 67px;
   letter-spacing: 8px;
@@ -46,7 +58,7 @@ h1,h2 {
   /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 
-.overlay{
+.overlay {
   width: 720px;
   height: 480px;
   box-shadow: 24px 16px 16px #603814c2;
@@ -58,26 +70,26 @@ h1,h2 {
   padding: 12px;
 }
 
-
-
-.overlay button:hover{
+.overlay button:hover {
   color: #efe258;
 }
 
-.d-none{
+.d-none {
   display: none;
 }
 
 
 @keyframes pulse {
   0% {
-      transform: scale(1);
+    transform: scale(1);
   }
+
   50% {
-      transform: scale(1.1);
+    transform: scale(1.1);
   }
+
   100% {
-      transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -97,9 +109,7 @@ h1,h2 {
   border-width: 0px;
   cursor: pointer;
   margin: 8px;
-  /* animation: all ease-in-out 225ms; */
 }
-
 
 #infoWindow {
   position: fixed;
@@ -124,29 +134,23 @@ h1,h2 {
   transform: translateX(100%);
   transition: all 200ms ease-in-out;
   opacity: 0;
- 
+
 }
 
 .animate-popup-infoWindow-container {
   transform: translateX(0);
   opacity: 1;
-  /* background-image: url('img/2_character_pepe/3_jump/J-35.png');
-  */
-  /* background-position: center; */
   background-repeat: no-repeat;
   background-color: #75dbed;
-
   background-image: url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-  url('img/2_character_pepe/3_jump/J-35.png'), 
-  url('img/8_coin/coin_1.png'), 
-  url('img/8_coin/coin_1.png'),
-  url('img/5_background/layers/4_clouds/1.png'); 
-  
-
-background-position: bottom right, top right, top left, 80px 32px, top center;
-background-repeat: no-repeat, no-repeat;
-background-size: cover, contain, contain, contain;
-background-size: 40% 30%, 40% 80%,30% 30%, 30% 30%, 100% 100%;
+    url('img/2_character_pepe/3_jump/J-35.png'),
+    url('img/8_coin/coin_1.png'),
+    url('img/8_coin/coin_1.png'),
+    url('img/5_background/layers/4_clouds/1.png');
+  background-position: bottom right, top right, top left, 80px 32px, top center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, contain, contain, contain;
+  background-size: 40% 30%, 40% 80%, 30% 30%, 30% 30%, 100% 100%;
 }
 
 h2 {
@@ -161,7 +165,7 @@ h2 {
   font-family: 'Courier New', Courier, monospace;
   font-size: 20px;
   font-weight: bolder;
-  color:#603814;
+  color: #603814;
 }
 
 .sub-controlsContainer {
@@ -185,7 +189,7 @@ h2 {
   font-size: 20px;
 }
 
-.spacebar{
+.spacebar {
   width: 130px !important;
   margin-right: 4dvh !important;
 }
@@ -193,19 +197,17 @@ h2 {
 .letterContainer span {
   font-weight: 700;
 }
-.fullscreenAndInfoContainer{
+
+.fullscreenAndInfoContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
-  top:55px;
-  left:50px;
+  top: 55px;
 }
 
-
-
-.infoContainer{
+.infoContainer {
   margin-right: 8px;
   width: 25px;
   height: 25px;
@@ -216,55 +218,149 @@ h2 {
   border: 3px solid rgb(43, 41, 41)
 }
 
-.infoContainer:hover{
+.infoContainer:hover {
   background-color: #ede375;
 }
 
-.infoContainer img{
+.infoContainer img {
   width: 23px;
   height: 23px;
   opacity: 0.7;
-  
+
 }
+
 .fullscreenContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   width: 25px;
   height: 25px;
-  
+
   cursor: pointer;
   padding: 4px;
   border-radius: 100%;
-  border: 3px solid ;
+  border: 3px solid;
   background-color: #dcc831;
 }
 
-.fullscreenContainer:hover{
+.fullscreenContainer:hover {
   background-color: #ede375;
 }
 
-.fullscreenContainer img{
+.fullscreenContainer img {
   width: 22px;
   height: 22px;
   opacity: 0.7;
 }
 
-/* .landscape-overlay {
+.landscape-overlay {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  right: 0;
+  bottom: 0;
+  padding: 30px 0px 0px 20px;
+  background: rgba(0, 0, 0, 0.923);
   color: white;
   font-size: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
-  font-weight: 100;
   letter-spacing: 3px;
-} */
+}
+
+@media (max-height: 434px) {
+  .overlay {
+    border-radius: 0px;
+  }
+  #gameName {
+    display: none;
+    font-size: 0px;
+  }
+  body::before {
+    content: none;
+    display: none;
+  }
+  canvas {
+    border-radius: 0px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 933px) {
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  .fullscreenAndInfoContainer {
+    position: absolute;
+    top: 5px;
+  }
+
+  .popup-infoWindow-container {
+    height: 300px;
+  }
+
+  #maincontainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* body{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  } */
+  body::before {
+    content: none;
+    display: none;
+    /* Optional, falls weitere Stile entfernt werden sollen */
+  }
+
+  #canvasAndOverlayContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0px;
+  }
+}
+
+@media only screen and(max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+}
+
+@media only screen and(max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+}
