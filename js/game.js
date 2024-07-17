@@ -254,12 +254,12 @@ window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
 
 function checkOrientation() {
-    let landscapeOverlay = document.getElementById('landscapeOverlay');
+    let rotation = document.getElementById('rotation');
     if (window.innerWidth < 933 && window.innerHeight > window.innerWidth) {
         // Mobile und im Hochformat
-        landscapeOverlay.style.display = 'flex';
+        rotation.style.display = 'flex';
     } else {
         // Desktop oder mobiles Gerät im Querformat
-        landscapeOverlay.style.display = 'none';
+        rotation.style.display = 'none';
     }
 }
