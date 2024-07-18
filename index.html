@@ -49,10 +49,12 @@
                 <img src="img/info.png">
             </div>
             <!-- Throw and Jump Buttons -->
-            <div class="flex">
+            <div class="flex ">
                 <div id="btnThrow" class="letterContainer-mobile m-right"><span>➶</span></div>
-                <div id="btnJump" class="letterContainer-mobile"><span>▲</span></div>
+                <div id="btnJump" class="letterContainer-mobile m-right"><span>▲</span></div>
+                <div onclick="toggleImprint()" class="mobile-imprint">Imprint</div>
             </div>
+            
         </div>
 
         <!-- Fullscreen Toggle Container -->
@@ -74,10 +76,9 @@
         <!-- Info Window Overlay -->
         <div onclick="hideInfoWindow()" id="infoWindow"></div>
     </div>
-
+    <div onclick="toggleImprint()" id="imprint" class="imprint">Imprint</div>
     <!-- Rotation Message for Mobile Devices -->
     <div id="rotation" class="rotation">Turn your device to play</div>
-
     <!-- Game Script -->
     <script src="js/game.js"></script>
 </body>

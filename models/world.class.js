@@ -150,22 +150,34 @@ class World {
     /** Checks if the character is above a chicken enemy and handles collision accordingly. */
     CheckCharacterAboveChicken() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !enemy.markedForRemoval) {
                 if (this.character.speedY < -10) {
                     this.character.speedY = 0;
                     this.chickenDead_sound.play();
                     enemy.chicken_dead = true;
                     enemy.hit();
+                    enemy.markedForRemoval = true; // Markiere den Feind als zu entfernen
+                    let enemyHitedmaxX = enemy.x + 30;
+                    let enemyHitedminX = enemy.x - 30;
+    
                     setTimeout(() => {
-                        let enemyIndex = this.level.enemies.indexOf(enemy);
-                        if (enemyIndex > -1) {
-                            this.level.enemies.splice(enemyIndex, 1);
-                        }
+                        this.level.enemies.forEach((enemyX) => {
+                            if (enemyX.x >= enemyHitedminX && enemyX.x <= enemyHitedmaxX && !enemyX.markedForRemoval) {
+                                this.chickenDead_sound.play();
+                                enemyX.chicken_dead = true;
+                                enemyX.hit();
+                                enemyX.markedForRemoval = true;
+                            }
+                        });
+    
+                        // Entferne alle markierten Feinde
+                        this.level.enemies = this.level.enemies.filter(enemy => !enemy.markedForRemoval);
                     }, 500);
                 }
             }
         });
     }
+    
 
     /** Checks if the character has thrown objects and manages the throwable objects in the game. */
     checkThrowObjects() {

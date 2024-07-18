@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let intervalIds = [];
 let gameRuning = true;
 let isInfoWindowOpen = false;
+let isImprintWindowOpen = false;
 let game_sound = new Audio('audio/gameSound.mp3');
 let game_sound_win = new Audio('audio/gameWin.mp3');
 let game_over_sound = new Audio('audio/gameover.mp3');
@@ -158,6 +159,7 @@ function showInfoWindow() {
  * Hides the information window.
  */
 function hideInfoWindow() {
+    if (isInfoWindowOpen) {
     setTimeout(() => {
         document.getElementById('popup-infoWindow-container').classList.remove('animate-popup-infoWindow-container');
         setTimeout(() => {
@@ -165,12 +167,21 @@ function hideInfoWindow() {
         }, 200);
     }, 200);
     isInfoWindowOpen = false;
+}else if(isImprintWindowOpen){
+    setTimeout(() => {
+        document.getElementById('popup-imprintWindow-container').classList.remove('animate-popup-infoWindow-container');
+        setTimeout(() => {
+            document.getElementById('infoWindow').style.display = 'none';
+        }, 200);
+    }, 200);
+    isImprintWindowOpen =false;
+}
 }
 
 /**
  * Adjusts the information window's button labels based on the window width.
  */
-function checkButtunsInfoInnerHTML(){
+function checkButtunsInfoInnerHTML() {
     if (window.innerWidth < 933) {
         document.getElementById('jumpBtnContainer').classList.remove('spacebar');
         document.getElementById('throwBtn').innerHTML = '➶';
@@ -308,5 +319,33 @@ function checkOrientation() {
         rotation.style.display = 'flex';
     } else {
         rotation.style.display = 'none';
+    }
+}
+
+function toggleImprint() {
+    if (!isImprintWindowOpen) {
+        let infoWindow = document.getElementById('infoWindow');
+        infoWindow.style.display = 'flex';
+        infoWindow.innerHTML = `<div id="popup-imprintWindow-container" class="popup-infoWindow-container popup-imprint">
+   <h2> Impressum </h2>
+   <h3> Angaben gemäß § 5 TMG:</h3>
+    <span>Roken Othman<br>
+    Langerfelder Str.76<br>
+    42389 Wuppertal<br>
+    Deutschland</span>
+    <h3>Kontakt:</h3>
+    <span>Telefon: 017643611217<br>
+    E-Mail: roken.othman91@gmail.com </span>
+    </div>
+    `;
+
+        setTimeout(() => {
+            document.getElementById('popup-imprintWindow-container').classList.add('animate-popup-infoWindow-container');
+        }, 200);
+        
+        isImprintWindowOpen = true;
+
+    } else {
+        hideInfoWindow();
     }
 }

@@ -113,7 +113,6 @@ class Endboss extends MovableObject {
     firstContact(i) {
         i = 0;
         this.hadFirstContact = true;
-        console.log('character x:' + this.world.character.x);
     }
 
     /**
