@@ -24,9 +24,6 @@ class Endboss extends MovableObject {
     /** @type {World} The world object in which the end boss exists. */
     world;
 
-    /** @type {Audio} The sound played when the end boss gets hurt. */
-    endboss_hurt_sound = new Audio('audio/endbossHurt.mp3');
-
     /** @type {string[]} Array of paths to images for the first contact animation. */
     images_first_contact = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -123,7 +120,6 @@ class Endboss extends MovableObject {
             this.moveRight();
             this.otherDirection = true;
         } else if (this.isHurt()) {
-            this.endboss_hurt_sound.play();
             this.playAnimation(this.images_hurt);
         } else if (this.isDead()) {
             this.playAnimation(this.images_dead);

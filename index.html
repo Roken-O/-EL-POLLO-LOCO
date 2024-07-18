@@ -33,8 +33,13 @@
     <!-- Controls and Fullscreen Container -->
     <div class="fullscreenAndInfoContainer">
         <!-- Info Button Container -->
+         <div class ="flex">
         <div onclick="toggleInfoWindow()" class="infoContainer">
             <img src="img/info.png">
+        </div>
+        <div id="muteContainer" onclick="toggleMute()" class="infoContainer">
+            <img id="soundicon" src="img/soundicon.png">
+        </div>
         </div>
 
         <!-- Mobile Controls Container -->
@@ -45,8 +50,13 @@
                 <div id="btnRight" class="letterContainer-mobile"><span>►</span></div>
             </div>
             <!-- Info Button for Mobile -->
-            <div onclick="toggleInfoWindow()" class="letterContainer-mobile">
-                <img src="img/info.png">
+            <div class ="flex">
+                <div onclick="toggleInfoWindow()" class="letterContainer-mobile m-right cPointer">
+                    <img src="img/info.png">
+                </div>
+                <div onclick="toggleMute()" class="letterContainer-mobile cPointer">
+                    <img id="mobile-soundicon" src="img/soundicon.png">
+                </div>
             </div>
             <!-- Throw and Jump Buttons -->
             <div class="flex ">
@@ -54,7 +64,7 @@
                 <div id="btnJump" class="letterContainer-mobile m-right"><span>▲</span></div>
                 <div onclick="toggleImprint()" class="mobile-imprint">Imprint</div>
             </div>
-            
+
         </div>
 
         <!-- Fullscreen Toggle Container -->

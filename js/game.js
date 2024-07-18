@@ -5,7 +5,7 @@ let intervalIds = [];
 let gameRuning = true;
 let isInfoWindowOpen = false;
 let isImprintWindowOpen = false;
-let game_sound = new Audio('audio/gameSound.mp3');
+let isMuted = false;
 let game_sound_win = new Audio('audio/gameWin.mp3');
 let game_over_sound = new Audio('audio/gameover.mp3');
 
@@ -14,7 +14,8 @@ let game_over_sound = new Audio('audio/gameover.mp3');
 * Also starts the game sound and hides the overlay.
 */
 function init() {
-    game_sound.play();
+    game_sound_win.pause();
+    game_over_sound.pause();
     gameRuning = true;
     canvas = document.getElementById('canvas');
     initLevel();
@@ -246,7 +247,6 @@ function youWin() {
  * @param {HTMLElement} overlay - The overlay element to display.
  */
 function gameEnded(overlay) {
-    game_sound.pause();
     stopGame();
     document.getElementById('canvas').classList.add('d-none');
     overlay.classList.remove('d-none');
@@ -315,7 +315,7 @@ window.addEventListener('orientationchange', checkOrientation);
  */
 function checkOrientation() {
     let rotation = document.getElementById('rotation');
-    if (window.innerWidth < 933 && window.innerHeight > window.innerWidth) {
+    if (window.innerWidth < 933 && window.innerHeight+70 > window.innerWidth) {
         rotation.style.display = 'flex';
     } else {
         rotation.style.display = 'none';
@@ -348,4 +348,21 @@ function toggleImprint() {
     } else {
         hideInfoWindow();
     }
+}
+
+function toggleMute(){
+    if(!isMuted){
+        document.getElementById('soundicon').src = 'img/soundlessicon.png';
+        document.getElementById('mobile-soundicon').src = 'img/soundlessicon.png';
+        game_sound_win.muted = true;
+        game_over_sound.muted = true;
+        isMuted = true;
+    }else{
+        document.getElementById('soundicon').src = 'img/soundicon.png';
+        document.getElementById('mobile-soundicon').src = 'img/soundicon.png';
+        game_sound_win.muted = false;
+        game_over_sound.muted = false;
+        isMuted = false; 
+    }
+    world.toggleMuteWorld(isMuted);
 }

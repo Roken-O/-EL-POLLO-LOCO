@@ -26,6 +26,9 @@ class World {
     /** @type {number} The number of collected bottles in the game. */
     collect_bottles = 0;
 
+    /** @type {Audio} The sound played when the game is started. */
+    game_sound = new Audio('audio/gameSound.mp3');
+
     /** @type {Audio} The sound played when a coin is collected. */
     coin_sound = new Audio('audio/coin.mp3');
 
@@ -34,6 +37,9 @@ class World {
 
     /** @type {Audio} The sound played when a chicken enemy is defeated. */
     chickenDead_sound = new Audio('audio/chickenDead.mp3');
+
+    /** @type {Audio} The sound played when the end boss gets hurt. */
+    endboss_hurt_sound = new Audio('audio/endbossHurt.mp3');
 
     /** @type {ThrowableObject[]} The list of throwable objects in the game. */
     throwableObjects = [];
@@ -110,6 +116,8 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.game_sound.play();
+        this.toggleMuteWorld(isMuted);
     }
 
     /** Sets up the initial state of the world, including assigning references between objects. */
@@ -139,9 +147,11 @@ class World {
     /** Checks if the character or the end boss has run out of energy to end the game. */
     checkCharacterAndEndbossEnergy() {
         if (this.character.energy === 0) {
+            this.game_sound.pause();
             gameRuning = false;
             gameOver();
         } else if (this.level.endboss.energy === 0) {
+            this.game_sound.pause();
             gameRuning = false;
             youWin();
         }
@@ -159,7 +169,7 @@ class World {
                     enemy.markedForRemoval = true; // Markiere den Feind als zu entfernen
                     let enemyHitedmaxX = enemy.x + 30;
                     let enemyHitedminX = enemy.x - 30;
-    
+
                     setTimeout(() => {
                         this.level.enemies.forEach((enemyX) => {
                             if (enemyX.x >= enemyHitedminX && enemyX.x <= enemyHitedmaxX && !enemyX.markedForRemoval) {
@@ -169,7 +179,7 @@ class World {
                                 enemyX.markedForRemoval = true;
                             }
                         });
-    
+
                         // Entferne alle markierten Feinde
                         this.level.enemies = this.level.enemies.filter(enemy => !enemy.markedForRemoval);
                     }, 500);
@@ -177,13 +187,18 @@ class World {
             }
         });
     }
-    
+
 
     /** Checks if the character has thrown objects and manages the throwable objects in the game. */
     checkThrowObjects() {
         if (this.keyboard.D && this.collect_bottles > 0) {
             let direction = this.character.otherDirection;
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, direction);
+            let bottle;
+            if (direction) {
+                bottle = new ThrowableObject(this.character.x + 60, this.character.y + 100, direction);
+            } else {
+                bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100, direction);
+            }
             this.throwableObjects.push(bottle);
             this.collect_bottles -= 10;
             this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
@@ -199,6 +214,7 @@ class World {
                 if (this.level.endboss.energy > 0) {
                     this.level.endboss.energy -= 5;
                     this.level.endboss.hit();
+                    this.endboss_hurt_sound.play();
                     this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
                 }
             }
@@ -354,5 +370,17 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1; // Restore original x-coordinate
         this.ctx.restore();
+    }
+
+    toggleMuteWorld(isMuted) {
+            this.game_sound.muted = isMuted;
+            this.bottleCollect_sound.muted = isMuted;
+            this.coin_sound.muted = isMuted;
+            this.chickenDead_sound.muted = isMuted;
+            this.character.hurt_sound.muted = isMuted;
+            this.chickenDead_sound.muted = isMuted;
+            this.character.jump_sound.muted = isMuted;
+            this.character.walking_sound.muted = isMuted;
+            this.endboss_hurt_sound.muted = isMuted;
     }
 }
