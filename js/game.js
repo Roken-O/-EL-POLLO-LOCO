@@ -5,6 +5,7 @@ let intervalIds = [];
 let gameRuning = true;
 let isInfoWindowOpen = false;
 let isImprintWindowOpen = false;
+let checkFullscreen = false;
 let isMuted = false;
 let game_sound_win = new Audio('audio/gameWin.mp3');
 let game_over_sound = new Audio('audio/gameover.mp3');
@@ -161,22 +162,22 @@ function showInfoWindow() {
  */
 function hideInfoWindow() {
     if (isInfoWindowOpen) {
-    setTimeout(() => {
-        document.getElementById('popup-infoWindow-container').classList.remove('animate-popup-infoWindow-container');
         setTimeout(() => {
-            document.getElementById('infoWindow').style.display = 'none';
+            document.getElementById('popup-infoWindow-container').classList.remove('animate-popup-infoWindow-container');
+            setTimeout(() => {
+                document.getElementById('infoWindow').style.display = 'none';
+            }, 200);
         }, 200);
-    }, 200);
-    isInfoWindowOpen = false;
-}else if(isImprintWindowOpen){
-    setTimeout(() => {
-        document.getElementById('popup-imprintWindow-container').classList.remove('animate-popup-infoWindow-container');
+        isInfoWindowOpen = false;
+    } else if (isImprintWindowOpen) {
         setTimeout(() => {
-            document.getElementById('infoWindow').style.display = 'none';
+            document.getElementById('popup-imprintWindow-container').classList.remove('animate-popup-infoWindow-container');
+            setTimeout(() => {
+                document.getElementById('infoWindow').style.display = 'none';
+            }, 200);
         }, 200);
-    }, 200);
-    isImprintWindowOpen =false;
-}
+        isImprintWindowOpen = false;
+    }
 }
 
 /**
@@ -268,14 +269,28 @@ function returnImage() {
         "url('img/5_background/layers/air.png')";
 }
 
-/**
- * Toggles fullscreen mode for the main container.
- */
-function toggleFullscreen() {
-    let maincontainer = document.getElementById("maincontainer");
-    if (!document.fullscreenElement) {
-        openFullscreen(maincontainer);
+function resizeCanvas() {
+    let overlay = document.getElementById('overlay');
+    canvas = document.getElementById('canvas');
+    if (!checkFullscreen) {
+        canvas.style.height = overlay.style.height = '97vh';
+        canvas.style.width = overlay.style.width = '100vw';
     } else {
+        canvas.style.height = overlay.style.height = '480px';
+        canvas.style.width = overlay.style.width = '720px';
+    }
+}
+
+function toggleFullscreen() {
+    
+    let canvasAndOverlayContainer = document.getElementById("canvasAndOverlayContainer");
+    if (!document.fullscreenElement) {
+        resizeCanvas();
+        checkFullscreen = true;
+        openFullscreen(canvasAndOverlayContainer);
+    } else {
+        resizeCanvas();
+        checkFullscreen = false;
         closeFullscreen();
     }
 }
@@ -315,7 +330,7 @@ window.addEventListener('orientationchange', checkOrientation);
  */
 function checkOrientation() {
     let rotation = document.getElementById('rotation');
-    if (window.innerWidth < 933 && window.innerHeight+70 > window.innerWidth) {
+    if (window.innerWidth < 933 && window.innerHeight + 70 > window.innerWidth) {
         rotation.style.display = 'flex';
     } else {
         rotation.style.display = 'none';
@@ -342,7 +357,7 @@ function toggleImprint() {
         setTimeout(() => {
             document.getElementById('popup-imprintWindow-container').classList.add('animate-popup-infoWindow-container');
         }, 200);
-        
+
         isImprintWindowOpen = true;
 
     } else {
@@ -350,19 +365,19 @@ function toggleImprint() {
     }
 }
 
-function toggleMute(){
-    if(!isMuted){
+function toggleMute() {
+    if (!isMuted) {
         document.getElementById('soundicon').src = 'img/soundlessicon.png';
         document.getElementById('mobile-soundicon').src = 'img/soundlessicon.png';
         game_sound_win.muted = true;
         game_over_sound.muted = true;
         isMuted = true;
-    }else{
+    } else {
         document.getElementById('soundicon').src = 'img/soundicon.png';
         document.getElementById('mobile-soundicon').src = 'img/soundicon.png';
         game_sound_win.muted = false;
         game_over_sound.muted = false;
-        isMuted = false; 
+        isMuted = false;
     }
     world.toggleMuteWorld(isMuted);
 }

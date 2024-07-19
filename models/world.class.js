@@ -104,6 +104,7 @@ class World {
         'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
     ]);
 
+
     /**
      * Creates an instance of World.
      * @param {HTMLCanvasElement} canvas - The canvas element where the game is rendered.
@@ -133,6 +134,9 @@ class World {
     run() {
         setStoppableInterval(() => {
             this.CheckCharacterAboveChicken();
+        }, 50);
+        setStoppableInterval(() => {
+            // this.CheckCharacterAboveChicken();
             this.checkCollisions();
             this.checkBottelCollisionWithEnemy();
             this.checkCollisionsWithEndBoss();
@@ -159,34 +163,39 @@ class World {
 
     /** Checks if the character is above a chicken enemy and handles collision accordingly. */
     CheckCharacterAboveChicken() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !enemy.markedForRemoval) {
-                if (this.character.speedY < -10) {
-                    this.character.speedY = 0;
-                    this.chickenDead_sound.play();
+        this.level.enemies.forEach((enemy, index) => {
+            if (this.character.isColliding(enemy)) {
+                if (this.character.isAboveGround()) {
+                   
                     enemy.chicken_dead = true;
                     enemy.hit();
-                    enemy.markedForRemoval = true; // Markiere den Feind als zu entfernen
-                    let enemyHitedmaxX = enemy.x + 30;
-                    let enemyHitedminX = enemy.x - 30;
+                    console.log('sppedYCharacter' ,this.character.speedY);
+                    this.character.speedY = 30;
+                    this.chickenDead_sound.play();
+
+                    console.log('chicken Dead');
+                    // this.keyboard.SPACE = true;
+                    // this.character.jump();
+                    this.character.jump_sound.play();
 
                     setTimeout(() => {
-                        this.level.enemies.forEach((enemyX) => {
-                            if (enemyX.x >= enemyHitedminX && enemyX.x <= enemyHitedmaxX && !enemyX.markedForRemoval) {
-                                this.chickenDead_sound.play();
-                                enemyX.chicken_dead = true;
-                                enemyX.hit();
-                                enemyX.markedForRemoval = true;
-                            }
-                        });
-
-                        // Entferne alle markierten Feinde
-                        this.level.enemies = this.level.enemies.filter(enemy => !enemy.markedForRemoval);
+                    // let enemyIndex = this.level.enemies.indexOf(enemy);
+                    // if (enemyIndex > -1) {
+                    this.level.enemies.splice(index, 1);
+                    // }
+                    this.keyboard.SPACE = false;
                     }, 500);
+                }
+                if(this.character.y> 130){
+                    this.character.y = 130;
                 }
             }
         });
     }
+
+    // checkDeadChicken(){
+
+    // }
 
 
     /** Checks if the character has thrown objects and manages the throwable objects in the game. */
@@ -254,11 +263,12 @@ class World {
     /** Checks if the character collides with enemies and manages the character's energy. */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                if (!enemy.chicken_dead) {
+            if (this.character.isColliding(enemy) && !enemy.chicken_dead) {
                     this.character.hit();
                     this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
-                }
+            }
+            if(enemy.chicken_dead){
+                enemy.chicken_dead = false;
             }
         });
     }
@@ -373,14 +383,14 @@ class World {
     }
 
     toggleMuteWorld(isMuted) {
-            this.game_sound.muted = isMuted;
-            this.bottleCollect_sound.muted = isMuted;
-            this.coin_sound.muted = isMuted;
-            this.chickenDead_sound.muted = isMuted;
-            this.character.hurt_sound.muted = isMuted;
-            this.chickenDead_sound.muted = isMuted;
-            this.character.jump_sound.muted = isMuted;
-            this.character.walking_sound.muted = isMuted;
-            this.endboss_hurt_sound.muted = isMuted;
+        this.game_sound.muted = isMuted;
+        this.bottleCollect_sound.muted = isMuted;
+        this.coin_sound.muted = isMuted;
+        this.chickenDead_sound.muted = isMuted;
+        this.character.hurt_sound.muted = isMuted;
+        this.chickenDead_sound.muted = isMuted;
+        this.character.jump_sound.muted = isMuted;
+        this.character.walking_sound.muted = isMuted;
+        this.endboss_hurt_sound.muted = isMuted;
     }
 }

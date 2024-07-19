@@ -18,8 +18,8 @@ class Chicken extends MovableObject {
     /** @type {Object} The offset for the chicken's collision box. */
     offset = {
         top: 0,
-        left: 10,
-        right: 10,
+        left: 0,
+        right: 0,
         bottom: 0
     };
 

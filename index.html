@@ -30,7 +30,35 @@
     <!-- Game Title -->
     <h1 id="gameName"> EL POLLO LOCO</h1>
 
-    <!-- Controls and Fullscreen Container -->
+  
+<!-- Mobile Controls Container -->
+<div class="controlsContainer-mobile">
+    <!-- Left and Right Movement Buttons -->
+    <div class="flex">
+        <div id="btnLeft" class="letterContainer-mobile m-right"><span>◄</span></div>
+        <div id="btnRight" class="letterContainer-mobile"><span>►</span></div>
+    </div>
+    <!-- Info Button for Mobile -->
+    <div class ="flex">
+        <div onclick="toggleInfoWindow()" class="letterContainer-mobile m-right cPointer">
+            <img src="img/info.png">
+        </div>
+        <div onclick="toggleMute()" class="letterContainer-mobile cPointer">
+            <img id="mobile-soundicon" src="img/soundicon.png">
+        </div>
+    </div>
+    <!-- Throw and Jump Buttons -->
+    <div class="flex ">
+        <div id="btnThrow" class="letterContainer-mobile m-right"><span>➶</span></div>
+        <div id="btnJump" class="letterContainer-mobile m-right"><span>▲</span></div>
+        <div onclick="toggleImprint()" class="mobile-imprint">Imprint</div>
+    </div>
+
+</div>
+    <!-- Canvas and Overlay Container -->
+    <div id="canvasAndOverlayContainer">
+
+          <!-- Controls and Fullscreen Container -->
     <div class="fullscreenAndInfoContainer">
         <!-- Info Button Container -->
          <div class ="flex">
@@ -42,39 +70,11 @@
         </div>
         </div>
 
-        <!-- Mobile Controls Container -->
-        <div class="controlsContainer-mobile">
-            <!-- Left and Right Movement Buttons -->
-            <div class="flex">
-                <div id="btnLeft" class="letterContainer-mobile m-right"><span>◄</span></div>
-                <div id="btnRight" class="letterContainer-mobile"><span>►</span></div>
-            </div>
-            <!-- Info Button for Mobile -->
-            <div class ="flex">
-                <div onclick="toggleInfoWindow()" class="letterContainer-mobile m-right cPointer">
-                    <img src="img/info.png">
-                </div>
-                <div onclick="toggleMute()" class="letterContainer-mobile cPointer">
-                    <img id="mobile-soundicon" src="img/soundicon.png">
-                </div>
-            </div>
-            <!-- Throw and Jump Buttons -->
-            <div class="flex ">
-                <div id="btnThrow" class="letterContainer-mobile m-right"><span>➶</span></div>
-                <div id="btnJump" class="letterContainer-mobile m-right"><span>▲</span></div>
-                <div onclick="toggleImprint()" class="mobile-imprint">Imprint</div>
-            </div>
-
-        </div>
-
         <!-- Fullscreen Toggle Container -->
         <div class="fullscreenContainer" onclick="toggleFullscreen()">
             <img src="img/fullscreen.png" alt="">
         </div>
     </div>
-
-    <!-- Canvas and Overlay Container -->
-    <div id="canvasAndOverlayContainer">
         <!-- Game Canvas -->
         <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
 
