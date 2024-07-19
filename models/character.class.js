@@ -191,6 +191,9 @@ class Character extends MovableObject {
                 this.playIdleOrSleepingAnimation();
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.images_Walking);
+            }else if(this.world.keyboard.D){
+                this.lastMoveTime = new Date().getTime();
+                this.playAnimation(this.images_idle);
             }
         }, 50);
     }
@@ -215,7 +218,7 @@ class Character extends MovableObject {
         let timeSinceLastMove = new Date().getTime() - this.lastMoveTime;
         if (timeSinceLastMove < 2000) {
             this.playAnimation(this.images_idle);
-        } else {
+        }else {
             this.playAnimation(this.images_sleeping);
         }
     }
