@@ -51,18 +51,8 @@ class Chicken extends MovableObject {
      */
     animate() {
         setStoppableInterval(() => {
-            if (this.world.character.x > this.x) {
-                this.moveRight();
-                this.otherDirection = true;
-            } else if (this.world.character.x < this.x) {
-                this.moveLeft();
-                this.otherDirection = false;
-            } else if (this.world.character.x == this.x) {
-                this.moveRight();
-                this.otherDirection = true;
-            }
+           this.chickenMovemnet();
         }, 200);
-
         setStoppableInterval(() => {
             if (this.isHurt()) {
                 this.playAnimation(this.image_dead);
@@ -70,5 +60,27 @@ class Chicken extends MovableObject {
                 this.playAnimation(this.images_Walking);
             }
         }, 100);
+    }
+
+    /**
+ * Updates the chicken's movement based on the character's position.
+ * 
+ * The chicken moves left or right depending on whether the character's 
+ * x-coordinate is greater than or less than the chicken's x-coordinate. 
+ * If the character's x-coordinate is equal to the chicken's, the chicken 
+ * moves to the right. The `otherDirection` property is updated to reflect 
+ * the chicken's current movement direction.
+ */
+    chickenMovemnet(){
+        if (this.world.character.x > this.x) {
+            this.moveRight();
+            this.otherDirection = true;
+        } else if (this.world.character.x < this.x) {
+            this.moveLeft();
+            this.otherDirection = false;
+        } else if (this.world.character.x == this.x) {
+            this.moveRight();
+            this.otherDirection = true;
+        }
     }
 }

@@ -76,16 +76,7 @@ class SmallChicken extends MovableObject {
      */
     animate() {
         setStoppableInterval(() => {
-            if (this.world.character.x > this.x) {
-                this.moveRight();
-                this.otherDirection = true;
-            } else if (this.world.character.x < this.x) {
-                this.moveLeft();
-                this.otherDirection = false;
-            } else if (this.world.character.x === this.x) {
-                this.moveRight();
-                this.otherDirection = true;
-            }
+           this.checkSmallChickenMovement();
         }, 200);
         setStoppableInterval(() => {
             if (this.isHurt()) {
@@ -94,5 +85,21 @@ class SmallChicken extends MovableObject {
                 this.playAnimation(this.images_Walking);
             }
         }, 100);
+    }
+
+    /**
+     * check small chicken's movement.
+     */
+    checkSmallChickenMovement(){
+        if (this.world.character.x > this.x) {
+            this.moveRight();
+            this.otherDirection = true;
+        } else if (this.world.character.x < this.x) {
+            this.moveLeft();
+            this.otherDirection = false;
+        } else if (this.world.character.x === this.x) {
+            this.moveRight();
+            this.otherDirection = true;
+        }
     }
 }

@@ -129,26 +129,56 @@ class Character extends MovableObject {
         setStoppableInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.world.level.level_end_x > this.x) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.walking_sound.play();
-                this.lastMoveTime = new Date().getTime();
+                this.moveRightCharacter();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.walking_sound.play();
-                this.lastMoveTime = new Date().getTime();
+                this.moveLeftCharacter();
             }
-
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jump();
-                this.jump_sound.play();
-                this.lastMoveTime = new Date().getTime();
+                this.jumpCharacter();
             }
             this.world.camera_x = -this.x + 200;
         }, 1000 / 60);
+        this.playAnimationCharacter();
+    }
 
+    /**
+  * Moves the character to the right, sets the direction, and plays the walking sound.
+  * Also updates the last movement time.
+  */
+    moveRightCharacter() {
+        this.moveRight();
+        this.otherDirection = false;
+        this.walking_sound.play();
+        this.lastMoveTime = new Date().getTime();
+    }
+
+    /**
+     * Moves the character to the left, sets the direction, and plays the walking sound.
+     * Also updates the last movement time.
+     */
+    moveLeftCharacter() {
+        this.moveLeft();
+        this.otherDirection = true;
+        this.walking_sound.play();
+        this.lastMoveTime = new Date().getTime();
+    }
+
+    /**
+     * Makes the character jump and plays the jump sound.
+     * Also updates the last movement time.
+     */
+    jumpCharacter() {
+        this.jump();
+        this.jump_sound.play();
+        this.lastMoveTime = new Date().getTime();
+    }
+
+    /**
+     * Plays the appropriate animation based on the character's state.
+     * The animation is checked and updated at regular intervals.
+     */
+    playAnimationCharacter() {
         setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.images_dead);

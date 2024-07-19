@@ -165,24 +165,14 @@ class World {
     CheckCharacterAboveChicken() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround()) {
-                   
+                if (this.character.isAboveGround()) {    
                     enemy.chicken_dead = true;
                     enemy.hit();
-                    console.log('sppedYCharacter' ,this.character.speedY);
                     this.character.speedY = 30;
                     this.chickenDead_sound.play();
-
-                    console.log('chicken Dead');
-                    // this.keyboard.SPACE = true;
-                    // this.character.jump();
                     this.character.jump_sound.play();
-
                     setTimeout(() => {
-                    // let enemyIndex = this.level.enemies.indexOf(enemy);
-                    // if (enemyIndex > -1) {
                     this.level.enemies.splice(index, 1);
-                    // }
                     this.keyboard.SPACE = false;
                     }, 500);
                 }
@@ -192,11 +182,6 @@ class World {
             }
         });
     }
-
-    // checkDeadChicken(){
-
-    // }
-
 
     /** Checks if the character has thrown objects and manages the throwable objects in the game. */
     checkThrowObjects() {
@@ -233,7 +218,7 @@ class World {
     /** Checks if thrown bottles collide with chicken enemies and manages the defeat of enemies. */
     checkBottelCollisionWithEnemy() {
         this.throwableObjects.forEach((bottle) => {
-            this.level.enemies.forEach((enemy) => {
+            this.level.enemies.forEach((enemy, index) => {
                 if (bottle.isColliding(enemy) && !bottle.hasCollided) {
                     bottle.hasCollided = true;
                     this.chickenDead_sound.play();
@@ -241,10 +226,7 @@ class World {
                     enemy.chicken_dead = true;
                     enemy.hit();
                     setTimeout(() => {
-                        let enemyIndex = this.level.enemies.indexOf(enemy);
-                        if (enemyIndex > -1) {
-                            this.level.enemies.splice(enemyIndex, 1);
-                        }
+                            this.level.enemies.splice(index, 1);
                     }, 500);
                 }
             });
@@ -356,7 +338,6 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

@@ -25,6 +25,14 @@ function init() {
     canvas.classList.remove('d-none');
 }
 
+/**
+ * Event listener for keydown events to update the keyboard state.
+ * 
+ * This listener sets the corresponding properties of the keyboard object 
+ * to true or false based on the keyCode of the pressed key.
+ * 
+ * @param {KeyboardEvent} e - The keyboard event object.
+ */
 window.addEventListener('keydown', (e) => {
     if (e.keyCode == 38) {
         keyboard.UP = true;
@@ -35,7 +43,6 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode == 37) {
         keyboard.LEFT = true;
     }
-
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;
     }
@@ -57,7 +64,6 @@ window.addEventListener('keyup', (e) => {
     if (e.keyCode == 37) {
         keyboard.LEFT = false;
     }
-
     if (e.keyCode == 39) {
         keyboard.RIGHT = false;
     }
@@ -69,6 +75,15 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
+/**
+ * Adds touch event listeners to buttons for controlling the keyboard state.
+ * 
+ * The following buttons are configured:
+ * - btnLeft: Sets keyboard.LEFT to true on touchstart, false on touchend.
+ * - btnRight: Sets keyboard.RIGHT to true on touchstart, false on touchend.
+ * - btnThrow: Sets keyboard.D to true on touchstart, false on touchend.
+ * - btnJump: Sets keyboard.SPACE to true on touchstart, false on touchend.
+ */
 document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
     e.preventDefault();
     keyboard.LEFT = true;
@@ -113,11 +128,7 @@ document.getElementById('btnJump').addEventListener('touchend', (e) => {
  * Toggles the visibility of the information window.
  */
 function toggleInfoWindow() {
-    if (!isInfoWindowOpen) {
-        showInfoWindow();
-    } else {
-        hideInfoWindow();
-    }
+    isInfoWindowOpen ? hideInfoWindow() : showInfoWindow();
 }
 
 /**
@@ -126,30 +137,7 @@ function toggleInfoWindow() {
 function showInfoWindow() {
     let infoWindow = document.getElementById('infoWindow');
     infoWindow.style.display = 'flex';
-    infoWindow.innerHTML = `
-    <div id="popup-infoWindow-container" class="popup-infoWindow-container" onclick="doNotClose(event)">
-      <h2>Controls</h2>
-      <div class="controlsContainer">
-            <div class="sub-controlsContainer">
-                    <div class="letterContainer"><span id="throwBtn">D</span></div>
-                    <div>Throw bottles</div>
-            </div>
-            <div class="sub-controlsContainer">
-                    <div class="letterContainer"><span id="rightBtn">></span></div>
-                    <div>Move right</div>
-            </div>
-            <div class="sub-controlsContainer">
-                    <div class="letterContainer"><span id="leftBtn"><</span></div>
-                    <div>Move left</div>
-            </div>
-            <div class="sub-controlsContainer">
-                    <div id="jumpBtnContainer" class="letterContainer spacebar"><span id="jumpBtn">spacebar</span></div>
-                    <div>Jump</div>
-            </div>
-      </div>
-
-   </div>`;
-
+    infoWindow.innerHTML = infoWindowHTML();
     checkButtunsInfoInnerHTML();
     setTimeout(() => {
         document.getElementById('popup-infoWindow-container').classList.add('animate-popup-infoWindow-container');
@@ -164,20 +152,29 @@ function hideInfoWindow() {
     if (isInfoWindowOpen) {
         setTimeout(() => {
             document.getElementById('popup-infoWindow-container').classList.remove('animate-popup-infoWindow-container');
-            setTimeout(() => {
-                document.getElementById('infoWindow').style.display = 'none';
-            }, 200);
+            InfoWindowDisplayNone();
         }, 200);
         isInfoWindowOpen = false;
     } else if (isImprintWindowOpen) {
         setTimeout(() => {
             document.getElementById('popup-imprintWindow-container').classList.remove('animate-popup-infoWindow-container');
-            setTimeout(() => {
-                document.getElementById('infoWindow').style.display = 'none';
-            }, 200);
+            InfoWindowDisplayNone();
         }, 200);
         isImprintWindowOpen = false;
     }
+}
+
+/**
+ * Hides the information window after a delay.
+ * 
+ * This function sets a timeout to change the display property of the 
+ * information window element to 'none' after 200 milliseconds, effectively 
+ * hiding the window.
+ */
+function InfoWindowDisplayNone() {
+    setTimeout(() => {
+        document.getElementById('infoWindow').style.display = 'none';
+    }, 200);
 }
 
 /**
@@ -257,18 +254,12 @@ function gameEnded(overlay) {
 }
 
 /**
- * Returns the background image URLs for the end game overlay.
- * @returns {string} - The concatenated background image URLs.
+ * Resizes the canvas and overlay elements based on the fullscreen status.
+ * 
+ * If the application is not in fullscreen mode, the canvas and overlay
+ * will be set to nearly full screen size. Otherwise, they will be set
+ * to a fixed smaller size.
  */
-function returnImage() {
-    return "url('img/2_character_pepe/3_jump/J-35.png'), " +
-        "url('img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), " +
-        "url('img/8_coin/coin_1.png'), " +
-        "url('img/8_coin/coin_1.png'), " +
-        "url('img/5_background/layers/4_clouds/1.png')," +
-        "url('img/5_background/layers/air.png')";
-}
-
 function resizeCanvas() {
     let overlay = document.getElementById('overlay');
     canvas = document.getElementById('canvas');
@@ -281,8 +272,15 @@ function resizeCanvas() {
     }
 }
 
+/**
+ * Toggles the fullscreen mode for the canvas and overlay container.
+ * 
+ * If the document is not in fullscreen mode, it enters fullscreen and resizes
+ * the canvas and overlay to nearly full screen size. If the document is
+ * already in fullscreen mode, it exits fullscreen and resizes the canvas
+ * and overlay to a fixed smaller size.
+ */
 function toggleFullscreen() {
-    
     let canvasAndOverlayContainer = document.getElementById("canvasAndOverlayContainer");
     if (!document.fullscreenElement) {
         resizeCanvas();
@@ -323,6 +321,7 @@ function closeFullscreen() {
 }
 
 window.addEventListener('resize', checkOrientation);
+window.addEventListener('resize', checkovelayAndCanvasSize);
 window.addEventListener('orientationchange', checkOrientation);
 
 /**
@@ -337,33 +336,69 @@ function checkOrientation() {
     }
 }
 
+/**
+ * Adjusts the size of the overlay and canvas based on the window width and fullscreen state.
+ * 
+ * This function sets the height and width of the canvas and overlay elements based on
+ * the current window width and the fullscreen mode. It ensures that the canvas and overlay
+ * are sized appropriately to fit different screen sizes and orientations.
+ * 
+ * - If the window width is less than 933 pixels and fullscreen mode is not active:
+ *   - The canvas will stretch to 100% of the viewport's height and width.
+ *   - The overlay will adjust its height and width to `auto`.
+ * 
+ * - If the window width is greater than 933 pixels and fullscreen mode is not active:
+ *   - Both the canvas and overlay will have a fixed height of 480 pixels and a width of 720 pixels.
+ * 
+ * This function is typically used to ensure that the game's canvas and overlay fit well on different
+ * screen sizes and orientations, providing a consistent user experience.
+ * 
+ * @returns {void}
+ */
+function checkovelayAndCanvasSize() {
+    let overlay = document.getElementById('overlay');
+    canvas = document.getElementById('canvas');
+    if (window.innerWidth < 933 && !checkFullscreen) {
+        canvas.style.height= '100%';
+        overlay.style.height = 'auto';
+        canvas.style.width = '100%';
+        overlay.style.width = 'auto';
+    } else if (window.innerWidth > 933 && !checkFullscreen) {
+        canvas.style.height = overlay.style.height = '480px';
+        canvas.style.width = overlay.style.width = '720px';
+    }
+}
+/**
+ * Toggles the display of the imprint window.
+ * 
+ * If the imprint window is not currently open, this function displays it
+ * with the imprint content and applies animation. If the imprint window is
+ * already open, it hides the window using the `hideInfoWindow` function.
+ */
 function toggleImprint() {
     if (!isImprintWindowOpen) {
         let infoWindow = document.getElementById('infoWindow');
         infoWindow.style.display = 'flex';
-        infoWindow.innerHTML = `<div id="popup-imprintWindow-container" class="popup-infoWindow-container popup-imprint">
-   <h2> Impressum </h2>
-   <h3> Angaben gemäß § 5 TMG:</h3>
-    <span>Roken Othman<br>
-    Langerfelder Str.76<br>
-    42389 Wuppertal<br>
-    Deutschland</span>
-    <h3>Kontakt:</h3>
-    <span>Telefon: 017643611217<br>
-    E-Mail: roken.othman91@gmail.com </span>
-    </div>
-    `;
-
+        infoWindow.innerHTML = imprintHTML();
         setTimeout(() => {
             document.getElementById('popup-imprintWindow-container').classList.add('animate-popup-infoWindow-container');
         }, 200);
-
         isImprintWindowOpen = true;
-
     } else {
         hideInfoWindow();
     }
 }
+
+/**
+ * Toggles the mute state of the game sounds.
+ * 
+ * If the game is currently not muted, this function mutes the game sounds,
+ * updates the sound icon to indicate the muted state, and updates the 
+ * `isMuted` flag. If the game is currently muted, it unmutes the game sounds,
+ * updates the sound icon to indicate the unmuted state, and updates the 
+ * `isMuted` flag. It also calls `world.toggleMuteWorld` to update the world 
+ * sound state based on the new mute status.
+ */
 
 function toggleMute() {
     if (!isMuted) {

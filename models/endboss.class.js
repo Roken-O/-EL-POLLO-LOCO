@@ -117,8 +117,7 @@ class Endboss extends MovableObject {
      */
     checkEndbossAnimation() {
         if (this.world.character.x > this.x) {
-            this.moveRight();
-            this.otherDirection = true;
+            this.moveRightEndboss();
         } else if (this.isHurt()) {
             this.playAnimation(this.images_hurt);
         } else if (this.isDead()) {
@@ -131,5 +130,13 @@ class Endboss extends MovableObject {
             this.otherDirection = true;
             this.playAnimation(this.images_first_contact);
         }
+    }
+
+    /**
+      * check end boss movement.
+     */
+    moveRightEndboss(){
+        this.moveRight();
+        this.otherDirection = true;
     }
 }
