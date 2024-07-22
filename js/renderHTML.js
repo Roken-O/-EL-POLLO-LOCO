@@ -67,7 +67,7 @@ function returnImage() {
  */
 function imprintHTML(){
     return `<div id="popup-imprintWindow-container" class="popup-infoWindow-container popup-imprint">
-   <h2> Impressum </h2>
+   <h2> Imprint </h2>
    <h3> Angaben gemäß § 5 TMG:</h3>
     <span>Roken Othman<br>
     Langerfelder Str.76<br>

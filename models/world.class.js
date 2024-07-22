@@ -41,6 +41,9 @@ class World {
     /** @type {Audio} The sound played when the end boss gets hurt. */
     endboss_hurt_sound = new Audio('audio/endbossHurt.mp3');
 
+    /** @type {Audio} The sound played when the bottle collided. */
+    glass_sound = new Audio('audio/glass.mp3');
+
     /** @type {ThrowableObject[]} The list of throwable objects in the game. */
     throwableObjects = [];
 
@@ -166,6 +169,7 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround()) {    
+                    if (this.character.speedY < -10) {
                     enemy.chicken_dead = true;
                     enemy.hit();
                     this.character.speedY = 30;
@@ -176,6 +180,7 @@ class World {
                     this.keyboard.SPACE = false;
                     }, 500);
                 }
+            }
                 if(this.character.y> 130){
                     this.character.y = 130;
                 }
@@ -209,6 +214,7 @@ class World {
                     this.level.endboss.energy -= 5;
                     this.level.endboss.hit();
                     this.endboss_hurt_sound.play();
+                    this.glass_sound.play();
                     this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
                 }
             }
@@ -222,6 +228,7 @@ class World {
                 if (bottle.isColliding(enemy) && !bottle.hasCollided) {
                     bottle.hasCollided = true;
                     this.chickenDead_sound.play();
+                    this.glass_sound.play();
                     this.character.speedY = 0;
                     enemy.chicken_dead = true;
                     enemy.hit();
@@ -369,7 +376,7 @@ class World {
         this.coin_sound.muted = isMuted;
         this.chickenDead_sound.muted = isMuted;
         this.character.hurt_sound.muted = isMuted;
-        this.chickenDead_sound.muted = isMuted;
+        this.glass_sound.muted = isMuted;
         this.character.jump_sound.muted = isMuted;
         this.character.walking_sound.muted = isMuted;
         this.endboss_hurt_sound.muted = isMuted;
