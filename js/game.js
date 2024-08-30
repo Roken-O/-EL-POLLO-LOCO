@@ -414,5 +414,7 @@ function toggleMute() {
         game_over_sound.muted = false;
         isMuted = false;
     }
-    world.toggleMuteWorld(isMuted);
+    if (world) {
+        world.toggleMuteWorld(isMuted);
+    }
 }
