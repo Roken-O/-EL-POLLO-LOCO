@@ -251,21 +251,50 @@ h2 {
   opacity: 0.7;
 }
 
+@keyframes rotateLeft {
+  0% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-90deg);
+  }
+  95% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .rotation {
   display: none;
+  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   padding: 30px 0px 0px 20px;
-  background: rgba(0, 0, 0, 0.923);
-  color: white;
+  background: rgba(181, 179, 179, 0.923);
+  color: rgb(34, 34, 31);
   font-size: 32px;
   z-index: 1000;
   letter-spacing: 3px;
 }
 
+.rotation::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 9%;
+  width: 79%;
+  height: 79%;
+  background-image: url('./img/samrt-phone.png');
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: rotateLeft 4s infinite ease-in-out;
+}
 .controlsContainer-mobile {
   z-index: 1;
   display: none;
@@ -331,7 +360,7 @@ h2 {
   text-decoration: underline;
 }
 
-.imprint:hover{
+.imprint:hover {
   color: #f3e874;
 }
 
@@ -345,44 +374,48 @@ h3 {
   font-weight: bold !important;
 }
 
-.popup-imprint span{
+.popup-imprint span {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 700;
   font-size: 16px;
 }
-.popup-imprint span h2{
+
+.popup-imprint span h2 {
   margin-block-start: 0.3em;
   margin-block-end: 0.3em;
 }
 
-.mobile-imprint{
+.mobile-imprint {
   display: none;
   position: fixed;
-  right:16px;
-    font-size: 16px;
-    color: #dcc831;
-    letter-spacing: 1px;
-    font-family: ui-monospace;
-    cursor: pointer;
-    text-decoration: underline;
+  right: 16px;
+  font-size: 16px;
+  color: #dcc831;
+  letter-spacing: 1px;
+  font-family: ui-monospace;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.mobile-imprint:hover{
+.mobile-imprint:hover {
   color: #dfda9d;
 }
 
-.cPointer{
+.cPointer {
   cursor: pointer;
 }
+
 @media (max-height: 434px) {
 
-  .imprint{
+  .imprint {
     display: none;
   }
+
   .controlsContainer-mobile {
     display: flex;
   }
-  .mobile-imprint{
+
+  .mobile-imprint {
     display: flex;
   }
 
@@ -463,15 +496,17 @@ h3 {
 }
 
 @media (max-width: 1200px) {
-  .imprint{
+  .imprint {
     display: none;
   }
+
   .controlsContainer-mobile {
     display: flex;
     position: fixed;
     bottom: 5px;
   }
-  .mobile-imprint{
+
+  .mobile-imprint {
     display: flex;
   }
 
@@ -489,6 +524,7 @@ h3 {
     width: 15px;
     height: 15px;
   }
+
   .fullscreenAndInfoContainer {
     position: fixed;
     top: 342px;
