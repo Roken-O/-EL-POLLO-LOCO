@@ -26,6 +26,9 @@ class World {
     /** @type {number} The number of collected bottles in the game. */
     collect_bottles = 0;
 
+       /** @type {number} Die Zeit in Millisekunden, als die letzte Flasche geworfen wurde. */
+       lastBottleThrowTime = 0;
+
     /** @type {Audio} The sound played when the game is started. */
     game_sound = new Audio('audio/gameSound.mp3');
 
@@ -188,9 +191,12 @@ class World {
         });
     }
 
+
     /** Checks if the character has thrown objects and manages the throwable objects in the game. */
     checkThrowObjects() {
-        if (this.keyboard.D && this.collect_bottles > 0) {
+        let currentTime = new Date().getTime();
+        let timeSinceLastThrow = currentTime - this.lastBottleThrowTime;
+        if (this.keyboard.D && this.collect_bottles > 0 && timeSinceLastThrow >= 1000) {
             let direction = this.character.otherDirection;
             let bottle;
             if (direction) {
@@ -202,6 +208,7 @@ class World {
             this.collect_bottles -= 10;
             this.status_bar_bottles.setPercentage(this.collect_bottles, this.status_bar_bottles.images);
             this.checkBottelCollisionWithEndBoss();
+            this.lastBottleThrowTime = currentTime;
         }
     }
 
@@ -258,9 +265,6 @@ class World {
             if (this.character.isColliding(enemy) && !enemy.chicken_dead) {
                 this.character.hit();
                 this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
-            }
-            if (enemy.chicken_dead) {
-                enemy.chicken_dead = false;
             }
         });
     }
