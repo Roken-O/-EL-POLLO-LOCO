@@ -168,20 +168,20 @@ class World {
     CheckCharacterAboveChicken() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.isAboveGround()) {    
+                if (this.character.isAboveGround()) {
                     if (this.character.speedY < -10) {
-                    enemy.chicken_dead = true;
-                    enemy.hit();
-                    this.character.speedY = 30;
-                    this.chickenDead_sound.play();
-                    this.character.jump_sound.play();
-                    setTimeout(() => {
-                    this.level.enemies.splice(index, 1);
-                    this.keyboard.SPACE = false;
-                    }, 500);
+                        enemy.chicken_dead = true;
+                        enemy.hit();
+                        this.character.speedY = 30;
+                        this.chickenDead_sound.play();
+                        this.character.jump_sound.play();
+                        setTimeout(() => {
+                            this.level.enemies.splice(index, 1);
+                            this.keyboard.SPACE = false;
+                        }, 500);
+                    }
                 }
-            }
-                if(this.character.y> 130){
+                if (this.character.y > 130) {
                     this.character.y = 130;
                 }
             }
@@ -209,14 +209,17 @@ class World {
     checkBottelCollisionWithEndBoss() {
         this.throwableObjects.forEach((bottle) => {
             if (bottle.isColliding(this.level.endboss) && !bottle.hasCollided) {
-                bottle.hasCollided = true;
-                if (this.level.endboss.energy > 0) {
-                    this.level.endboss.energy -= 5;
-                    this.level.endboss.hit();
-                    this.endboss_hurt_sound.play();
-                    this.glass_sound.play();
-                    this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
-                }
+                
+                setTimeout(() => {
+                    bottle.hasCollided = true;
+                    if (this.level.endboss.energy > 0) {
+                        this.level.endboss.energy -= 5;
+                        this.level.endboss.hit();
+                        this.endboss_hurt_sound.play();
+                        this.glass_sound.play();
+                        this.status_bar_endboss.setPercentage(this.level.endboss.energy, this.status_bar_endboss.images);
+                    }
+                }, 200);
             }
         });
     }
@@ -233,7 +236,7 @@ class World {
                     enemy.chicken_dead = true;
                     enemy.hit();
                     setTimeout(() => {
-                            this.level.enemies.splice(index, 1);
+                        this.level.enemies.splice(index, 1);
                     }, 500);
                 }
             });
@@ -253,10 +256,10 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.chicken_dead) {
-                    this.character.hit();
-                    this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
+                this.character.hit();
+                this.status_bar.setPercentage(this.character.energy, this.status_bar.images);
             }
-            if(enemy.chicken_dead){
+            if (enemy.chicken_dead) {
                 enemy.chicken_dead = false;
             }
         });
@@ -310,11 +313,11 @@ class World {
 
             // Draw dynamic objects
             this.addToMap(this.character);
-            this.addObjectsToMap(this.throwableObjects);
-            this.addObjectsToMap(this.level.bottles);
             this.addObjectsToMap(this.level.enemies);
             this.addObjectsToMap(this.level.coins);
             this.addToMap(this.level.endboss);
+            this.addObjectsToMap(this.throwableObjects);
+            this.addObjectsToMap(this.level.bottles);
 
             this.ctx.translate(-this.camera_x, 0); // Reset camera translation
 
